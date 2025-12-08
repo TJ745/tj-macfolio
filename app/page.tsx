@@ -1,6 +1,13 @@
+"use client";
 import Dock from "@/components/Dock";
 import Navbar from "@/components/Navbar";
 import Welcome from "@/components/Welcome";
+
+import Terminal from "@/windows/Terminal";
+
+import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
+gsap.registerPlugin(Draggable);
 
 export default function Home() {
   return (
@@ -8,6 +15,8 @@ export default function Home() {
       <Navbar />
       <Welcome />
       <Dock />
+
+      <Terminal />
     </main>
   );
 }
