@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Welcome from "@/components/Welcome";
 
 import Terminal from "@/windows/Terminal";
+import Safari from "@/windows/Safari";
 
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
@@ -17,6 +18,7 @@ export default function Home() {
       <Dock />
 
       <Terminal />
+      <Safari />
     </main>
   );
 }
