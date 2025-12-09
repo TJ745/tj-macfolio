@@ -483,6 +483,7 @@ const TRASH_LOCATION = {
   ],
 };
 
+
 export const locations = {
   work: WORK_LOCATION,
   about: ABOUT_LOCATION,
