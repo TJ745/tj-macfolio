@@ -21,14 +21,21 @@ const renderText = (text: string, className: string, baseWeight = 400) => {
   ));
 };
 
-const setupTextHover = (container, type) => {
+const setupTextHover = (
+  container: HTMLElement | null,
+  type: "title" | "subtitle"
+) => {
   if (!container) return () => {};
 
-  const letters = container.querySelectorAll("span");
+  const letters: NodeListOf<HTMLElement> = container.querySelectorAll("span");
 
   const { min, max, default: base } = FONT_WEIGHTS[type];
 
-  const animateLetter = (letter: string, weight: number, duration = 0.25) => {
+  const animateLetter = (
+    letter: HTMLElement,
+    weight: number,
+    duration = 0.25
+  ) => {
     return gsap.to(letter, {
       duration,
       ease: "power2.out",
@@ -36,7 +43,7 @@ const setupTextHover = (container, type) => {
     });
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     const { left } = container.getBoundingClientRect();
     const mouseX = e.clientX - left;
 
@@ -50,7 +57,7 @@ const setupTextHover = (container, type) => {
   };
 
   const handleMouseLeave = () =>
-    letters.forEach((letter: string) => animateLetter(letter, base, 0.3));
+    letters.forEach((letter: HTMLElement) => animateLetter(letter, base, 0.3));
 
   container.addEventListener("mousemove", handleMouseMove);
   container.addEventListener("mouseleave", handleMouseLeave);
@@ -85,7 +92,7 @@ const Welcome = () => {
         )}
       </p>
       <h1 ref={titleRef} className="mt-7">
-        {renderText("portfolio", "text-9xl italic font-georama", 100)}
+        {renderText("portfolio.", "text-9xl italic font-georama", 100)}
       </h1>
 
       <div className="small-screen">

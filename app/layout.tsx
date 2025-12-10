@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { Georama, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Georama({
+const georama = Georama({
   variable: "--font-georama",
-  // subsets: ["latin"],
+  subsets: ["latin"],
 });
 
-const geistMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  // subsets: ["latin"],
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${georama.variable} ${robotoMono.variable} antialiased`}
       >
         {children}
       </body>

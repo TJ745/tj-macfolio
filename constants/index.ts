@@ -489,7 +489,7 @@ export const locations = {
   about: ABOUT_LOCATION,
   resume: RESUME_LOCATION,
   trash: TRASH_LOCATION,
-};
+} as const;
 
 const INITIAL_Z_INDEX = 1000;
 
