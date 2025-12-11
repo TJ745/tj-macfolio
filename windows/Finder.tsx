@@ -30,13 +30,17 @@ const Finder = () => {
 
   const renderList = (name: string, items: LocationItem[]) => (
     <div>
-      <h3>{name}</h3>
-      <ul>
+      <h3 className="text-xs font-medium text-gray-400 mb-1">{name}</h3>
+      <ul className="space-y-1">
         {items.map((item) => (
           <li
             key={item.id}
             onClick={() => setActiveLocation(item)}
-            className={item.id === activeLocation.id ? "active" : "non-active"}
+            className={`${
+              item.id === activeLocation.id
+                ? "bg-blue-100 text-blue-700"
+                : "text-gray-700 hover:bg-gray-200"
+            } flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors`}
           >
             <Image
               src={item.icon}
@@ -56,24 +60,32 @@ const Finder = () => {
     <>
       <div id="window-header">
         <WindowControls target="finder" />
-        <Search className="icon" />
+        <Search size={16} />
       </div>
 
       <div className="bg-white flex h-full">
-        <div className="sidebar">
+        <div className="w-48 bg-gray-50 border-r border-gray-200 flex flex-col p-5 space-y-3">
           {renderList("Favourites", Object.values(locations))}
           {renderList("Work", locations.work.children)}
         </div>
 
-        <ul className="content">
+        <ul className="flex-1 p-8 bg-white max-w-2xl relative">
           {activeLocation?.children?.map((item: FileItem | FolderItem) => (
             <li
               key={item.id}
-              className={item.position}
+              className={`${item.position} absolute flex items-center flex-col gap-3`}
               onClick={() => openItem(item)}
             >
-              <Image src={item.icon} alt={item.name} height={100} width={100} />
-              <p>{item.name}</p>
+              <Image
+                src={item.icon}
+                alt={item.name}
+                height={100}
+                width={100}
+                className="object-contain object-center size-16 relative group-hover:scale-105"
+              />
+              <p className="text-sm text-center font-medium w-40">
+                {item.name}
+              </p>
             </li>
           ))}
         </ul>

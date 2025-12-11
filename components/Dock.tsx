@@ -7,7 +7,11 @@ import Image from "next/image";
 import React, { useRef } from "react";
 import { Tooltip } from "react-tooltip";
 
-const Dock = () => {
+interface DockProps {
+  isDarkMode?: boolean;
+}
+
+const Dock: React.FC<DockProps> = () => {
   const { openWindow, closeWindow, windows } = useWindowStore();
   const dockRef = useRef(null);
 
@@ -59,16 +63,16 @@ const Dock = () => {
     };
   }, []);
 
-  const toggleApp = (app) => {
+  const toggleApp = (app: { id: string; canOpen?: boolean }) => {
     if (!app.canOpen) return;
 
-    const window = windows[app.id];
+    const win = windows[app.id];
 
-    if (!window) {
+    if (!win) {
       return;
     }
 
-    if (window.isOpen) {
+    if (win.isOpen) {
       closeWindow(app.id);
     } else {
       openWindow(app.id);
@@ -76,13 +80,19 @@ const Dock = () => {
   };
 
   return (
-    <section id="dock">
-      <div ref={dockRef} className="dock-container">
+    <section
+      id="dock"
+      className="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 select-none max-sm:hidden"
+    >
+      <div
+        ref={dockRef}
+        className="bg-white/20 backdrop-blur-md justify-between rounded-2xl p-1.5 flex items-end gap-1.5"
+      >
         {dockApps.map(({ id, name, icon, canOpen }) => (
           <div key={id} className="relative flex justify-center">
             <button
               type="button"
-              className="dock-icon"
+              className="size-14 cursor-pointer"
               aria-label={name}
               data-tooltip-id="dock-tooltip"
               data-tooltip-content={name}
@@ -94,7 +104,9 @@ const Dock = () => {
                 src={`/images/${icon}`}
                 alt={name}
                 loading="lazy"
-                className={canOpen ? "" : "opacity-60"}
+                className={`object-cover object-center ${
+                  canOpen ? "" : "opacity-60"
+                }`}
                 height={100}
                 width={100}
               />
@@ -102,7 +114,11 @@ const Dock = () => {
           </div>
         ))}
 
-        <Tooltip id="dock-tooltip" place="top" className="tooltip" />
+        <Tooltip
+          id="dock-tooltip"
+          place="top"
+          className="py-1! px-3! w-fit! text-center! text-xs! rounded-md! bg-blue-200! text-blue-900! shadow-2xl!"
+        />
       </div>
     </section>
   );

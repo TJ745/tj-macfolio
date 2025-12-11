@@ -83,7 +83,10 @@ const Welcome = () => {
   }, []);
 
   return (
-    <section id="welcome">
+    <section
+      id="welcome"
+      className="text-gray-200 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none max-sm:h-screen max-sm:w-full max-sm:px-10"
+    >
       <p ref={subtitleRef}>
         {renderText(
           "Hey, I'm Talha! Welcome to my",
@@ -92,11 +95,13 @@ const Welcome = () => {
         )}
       </p>
       <h1 ref={titleRef} className="mt-7">
-        {renderText("portfolio.", "text-9xl italic font-georama", 100)}
+        {renderText("portfolio.", "text-9xl italic font-georama", 400)}
       </h1>
 
-      <div className="small-screen">
-        <p>This portfolio is designed for desktop/tablet screens only.</p>
+      <div className="sm:hidden m-7 bg-red-300/20 backdrop-blur-lg p-3 rounded-md absolute top-10">
+        <p className="flex-1 text-[16px] text-center font-roboto text-gray-400">
+          This portfolio is designed for desktop/tablet screens only.
+        </p>
       </div>
     </section>
   );

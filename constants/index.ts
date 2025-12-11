@@ -1,40 +1,3 @@
-const navLinks = [
-  {
-    id: 1,
-    name: "Projects",
-    type: "finder",
-  },
-  {
-    id: 3,
-    name: "Contact",
-    type: "contact",
-  },
-  {
-    id: 4,
-    name: "Resume",
-    type: "resume",
-  },
-];
-
-const navIcons = [
-  {
-    id: 1,
-    img: "/icons/wifi.svg",
-  },
-  {
-    id: 2,
-    img: "/icons/search.svg",
-  },
-  {
-    id: 3,
-    img: "/icons/user.svg",
-  },
-  {
-    id: 4,
-    img: "/icons/mode.svg",
-  },
-];
-
 const dockApps = [
   {
     id: "finder",
@@ -71,6 +34,12 @@ const dockApps = [
     name: "Archive", // was "Trash"
     icon: "trash.png",
     canOpen: false,
+  },
+  {
+    id: "launchpad",
+    name: "Launchpad", // was "Trash"
+    icon: "trash.png",
+    canOpen: true,
   },
 ];
 
@@ -205,8 +174,7 @@ const gallery = [
 ];
 
 export {
-  navLinks,
-  navIcons,
+  
   dockApps,
   blogPosts,
   techStack,
@@ -494,6 +462,7 @@ export const locations = {
 const INITIAL_Z_INDEX = 1000;
 
 const WINDOW_CONFIG = {
+  launchpad: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
   finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
   contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
   resume: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },

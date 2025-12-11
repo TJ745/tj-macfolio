@@ -16,7 +16,7 @@ const Resume = () => {
     <>
       <div id="window-header">
         <WindowControls target="resume" />
-        <h2>Resume.pdf</h2>
+        <h2 className="font-bold text-sm text-center flex-1">Resume.pdf</h2>
 
         <a
           href="files/resume.pdf"
@@ -24,7 +24,7 @@ const Resume = () => {
           className="cursor-pointer"
           title="Download Resume"
         >
-          <Download className="icon" />
+          <Download size={16} />
         </a>
       </div>
 

@@ -5,10 +5,14 @@ import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import React, { useLayoutEffect, useRef } from "react";
 
-const WindowWrapper = (Component, windowKey) => {
-  const Wrapped = (props) => {
+interface WindowWrapperProps {
+  windowKey: keyof typeof import("@/constants").WINDOW_CONFIG;
+}
+
+const WindowWrapper = (Component: any, windowKey: string) => {
+  const Wrapped = (props: any) => {
     const { focusWindow, windows } = useWindowStore();
-    const { isOpen, zIndex } = windows[windowKey];
+    const { isOpen, zIndex } = windows[windowKey as keyof typeof windows];
     const ref = useRef(null);
 
     useGSAP(() => {
@@ -28,11 +32,13 @@ const WindowWrapper = (Component, windowKey) => {
       const el = ref.current;
       if (!el) return;
 
-      const [instance] = Draggable.create(el, {
+      // const [instance] = Draggable.create(el, {
+      const instances = Draggable.create(el, {
         onPress: () => focusWindow(windowKey),
       });
 
-      return () => instance.kill();
+      // return () => instance.kill();
+      return () => instances.forEach((inst) => inst.kill());
     }, []);
 
     useLayoutEffect(() => {

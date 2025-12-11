@@ -8,7 +8,7 @@ interface WindowState {
   data: unknown;
 }
 
-type WindowKey = keyof typeof WINDOW_CONFIG;
+export type WindowKey = keyof typeof WINDOW_CONFIG;
 
 export interface WindowStore {
   windows: Record<WindowKey, WindowState>;
@@ -23,7 +23,8 @@ export interface WindowStore {
 
 const useWindowStore = create<WindowStore>()(
   immer((set) => ({
-    windows: WINDOW_CONFIG,
+    // windows: WINDOW_CONFIG,
+    windows: JSON.parse(JSON.stringify(WINDOW_CONFIG)),
     nextZIndex: INITIAL_Z_INDEX + 1,
 
     openWindow: (windowKey, data = null) =>
@@ -56,6 +57,7 @@ const useWindowStore = create<WindowStore>()(
     if (!win) return;
     win.isOpen = false; // or just visually minimize
   }),
+  
 maximizeWindow: (windowKey) =>
   set((state) => {
     const win = state.windows[windowKey];

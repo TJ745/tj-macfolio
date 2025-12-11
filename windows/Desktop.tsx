@@ -4,13 +4,26 @@ import type React from "react";
 
 import { useState, useEffect, useRef } from "react";
 import Dock from "@/components/Dock";
-import Menubar from "@/components/Navbar";
+import Navbar from "@/components/Navbar";
 import Wallpaper from "@/components/Wallpaper";
-// import Window from "@/components/window";
-// import Launchpad from "@/components/launchpad";
 import ControlCenter from "@/components/ControlCenter";
 import Spotlight from "@/components/Spotlight";
-import type { AppWindow } from "@/types";
+
+import HomePage from "@/components/HomePage";
+import Welcome from "@/components/Welcome";
+
+import Finder from "./Finder";
+import Safari from "./Safari";
+import Photos from "./Photos";
+import Contact from "./Contact";
+import Terminal from "./Terminal";
+
+import Text from "./Text";
+import ImageWin from "./ImageWin";
+import Resume from "./Resume";
+
+import useWindowStore, { WindowKey } from "@/store/window";
+import Launchpad from "@/components/Launchpad";
 
 interface DesktopProps {
   onLogout: () => void;
@@ -34,26 +47,22 @@ export default function Desktop({
   onBrightnessChange,
 }: DesktopProps) {
   const [time, setTime] = useState(new Date());
-  const [openWindows, setOpenWindows] = useState<AppWindow[]>([]);
-  const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
-  const [showLaunchpad, setShowLaunchpad] = useState(false);
-  const [showControlCenter, setShowControlCenter] = useState(false);
-  const [showSpotlight, setShowSpotlight] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(initialDarkMode);
   const [screenBrightness, setScreenBrightness] = useState(initialBrightness);
+  const [showControlCenter, setShowControlCenter] = useState(false);
+  const [showSpotlight, setShowSpotlight] = useState(false);
+  const [showLaunchpad, setShowLaunchpad] = useState(false);
+
   const desktopRef = useRef<HTMLDivElement>(null);
+  const { windows } = useWindowStore();
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
-
-    // No default app opening to avoid duplicate key issues
-
     return () => clearInterval(timer);
   }, []);
 
-  // Update local state when props change
   useEffect(() => {
     setIsDarkMode(initialDarkMode);
   }, [initialDarkMode]);
@@ -61,45 +70,6 @@ export default function Desktop({
   useEffect(() => {
     setScreenBrightness(initialBrightness);
   }, [initialBrightness]);
-
-  const openApp = (app: AppWindow) => {
-    // Check if app is already open
-    const isOpen = openWindows.some((window) => window.id === app.id);
-
-    if (!isOpen) {
-      setOpenWindows((prev) => [...prev, app]);
-    }
-
-    // Set as active window
-    setActiveWindowId(app.id);
-
-    // Close launchpad if open
-    if (showLaunchpad) {
-      setShowLaunchpad(false);
-    }
-  };
-
-  const closeWindow = (id: string) => {
-    setOpenWindows((prev) => prev.filter((window) => window.id !== id));
-
-    // If we closed the active window, set the last window as active
-    if (activeWindowId === id && openWindows.length > 1) {
-      const remainingWindows = openWindows.filter((window) => window.id !== id);
-      setActiveWindowId(remainingWindows[remainingWindows.length - 1].id);
-    } else if (openWindows.length <= 1) {
-      setActiveWindowId(null);
-    }
-  };
-
-  const setActiveWindow = (id: string) => {
-    setActiveWindowId(id);
-  };
-
-  const toggleLaunchpad = () => {
-    setShowLaunchpad(!showLaunchpad);
-    if (showControlCenter) setShowControlCenter(false);
-    if (showSpotlight) setShowSpotlight(false);
-  };
 
   const toggleControlCenter = () => {
     setShowControlCenter(!showControlCenter);
@@ -109,6 +79,12 @@ export default function Desktop({
   const toggleSpotlight = () => {
     setShowSpotlight(!showSpotlight);
     if (showControlCenter) setShowControlCenter(false);
+  };
+
+  const toggleLaunchpad = () => {
+    setShowLaunchpad(!showLaunchpad);
+    if (showControlCenter) setShowControlCenter(false);
+    if (showSpotlight) setShowSpotlight(false);
   };
 
   const toggleDarkMode = () => {
@@ -123,11 +99,9 @@ export default function Desktop({
   };
 
   const handleDesktopClick = (e: React.MouseEvent) => {
-    // Only handle clicks directly on the desktop, not on children
     if (e.target === desktopRef.current) {
-      setActiveWindowId(null);
-      if (showControlCenter) setShowControlCenter(false);
-      if (showSpotlight) setShowSpotlight(false);
+      setShowControlCenter(false);
+      setShowSpotlight(false);
     }
   };
 
@@ -142,8 +116,7 @@ export default function Desktop({
       >
         <Wallpaper isDarkMode={isDarkMode} />
 
-        <Menubar
-          //   time={time}
+        <Navbar
           onLogout={onLogout}
           onSleep={onSleep}
           onShutdown={onShutdown}
@@ -151,34 +124,8 @@ export default function Desktop({
           onSpotlightClick={toggleSpotlight}
           onControlCenterClick={toggleControlCenter}
           isDarkMode={isDarkMode}
-          activeWindow={
-            activeWindowId
-              ? openWindows.find((w) => w.id === activeWindowId) || null
-              : null
-          }
+          activeWindow={null}
         />
-
-        {/* Windows */}
-        <div className="absolute inset-0 pt-6 pb-16">
-          {/* {openWindows.map((window) => (
-            <Window
-              key={window.id}
-              window={window}
-              isActive={activeWindowId === window.id}
-              onClose={() => closeWindow(window.id)}
-              onFocus={() => setActiveWindow(window.id)}
-              isDarkMode={isDarkMode}
-            />
-          ))} */}
-        </div>
-
-        {/* Launchpad */}
-        {/* {showLaunchpad && (
-          <Launchpad
-            onAppClick={openApp}
-            onClose={() => setShowLaunchpad(false)}
-          />
-        )} */}
 
         {/* Control Center */}
         {showControlCenter && (
@@ -192,19 +139,40 @@ export default function Desktop({
         )}
 
         {/* Spotlight */}
-        {showSpotlight && (
-          <Spotlight
-            onClose={() => setShowSpotlight(false)}
-            onAppClick={openApp}
-          />
-        )}
+        {showSpotlight && <Spotlight onClose={() => setShowSpotlight(false)} />}
 
-        <Dock
-        //   onAppClick={openApp}
-        //   onLaunchpadClick={toggleLaunchpad}
-        //   activeAppIds={openWindows.map((w) => w.id)}
-        //   isDarkMode={isDarkMode}
-        />
+        {showLaunchpad && <Launchpad onClose={() => setShowLaunchpad(false)} />}
+
+        <Dock isDarkMode={isDarkMode} />
+
+        <HomePage />
+        <Welcome />
+
+        {Object.entries(windows).map(([key, win]) => {
+          if (!win.isOpen) return null;
+
+          // Map window keys to imported wrappers
+          switch (key as WindowKey) {
+            case "finder":
+              return <Finder key={key} />;
+            case "safari":
+              return <Safari key={key} />;
+            case "photos":
+              return <Photos key={key} />;
+            case "contact":
+              return <Contact key={key} />;
+            case "terminal":
+              return <Terminal key={key} />;
+            case "txtfile":
+              return <Text key={key} />;
+            case "imgfile":
+              return <ImageWin key={key} />;
+            case "resume":
+              return <Resume key={key} />;
+            default:
+              return null;
+          }
+        })}
       </div>
 
       {/* Brightness overlay */}

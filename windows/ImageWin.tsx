@@ -1,6 +1,7 @@
 import WindowControls from "@/components/WindowControls";
 import WindowWrapper from "@/components/WindowWrapper";
 import useWindowStore from "@/store/window";
+import Image from "next/image";
 import React from "react";
 
 const ImageWin = () => {
@@ -14,16 +15,18 @@ const ImageWin = () => {
     <>
       <div id="window-header">
         <WindowControls target="imgfile" />
-        <h2>{name}</h2>
+        <h2 className="font-bold text-[#5f6266]">{name}</h2>
       </div>
 
       <div className="p-5 bg-white">
         {imageUrl ? (
           <div className="w-full">
-            <img
+            <Image
               src={imageUrl}
               alt={name}
               className="w-full h-auto max-h-[70vh] object-contain rounded"
+              height={100}
+              width={100}
             />
           </div>
         ) : null}

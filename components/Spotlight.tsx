@@ -3,66 +3,23 @@
 import { Search } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import type { AppWindow } from "@/types";
-
-const spotlightApps = [
-  { id: "safari", title: "Safari", icon: "/safari.png", component: "Safari" },
-  { id: "mail", title: "Mail", icon: "/mail.png", component: "Mail" },
-  { id: "vscode", title: "VS Code", icon: "/vscode.png", component: "VSCode" },
-  { id: "notes", title: "Notes", icon: "/notes.png", component: "Notes" },
-  {
-    id: "facetime",
-    title: "FaceTime",
-    icon: "/facetime.png",
-    component: "FaceTime",
-  },
-  {
-    id: "terminal",
-    title: "Terminal",
-    icon: "/terminal.png",
-    component: "Terminal",
-  },
-  { id: "github", title: "GitHub", icon: "/github.png", component: "GitHub" },
-  {
-    id: "youtube",
-    title: "YouTube",
-    icon: "/youtube.png",
-    component: "YouTube",
-  },
-  {
-    id: "spotify",
-    title: "Spotify",
-    icon: "/spotify.png",
-    component: "Spotify",
-  },
-  { id: "snake", title: "Snake", icon: "/snake.png", component: "Snake" },
-  {
-    id: "weather",
-    title: "Weather",
-    icon: "/weather.png",
-    component: "Weather",
-  },
-];
+import useWindowStore from "@/store/window";
+import { dockApps } from "@/constants";
 
 interface SpotlightProps {
   onClose: () => void;
-  onAppClick: (app: AppWindow) => void;
 }
 
-export default function Spotlight({ onClose, onAppClick }: SpotlightProps) {
+export default function Spotlight({ onClose }: SpotlightProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApps, setFilteredApps] = useState(spotlightApps);
+  const [filteredApps, setFilteredApps] = useState(dockApps);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleAppClick = (app: (typeof spotlightApps)[0]) => {
-    onAppClick({
-      id: app.id,
-      title: app.title,
-      component: app.component,
-      position: { x: Math.random() * 200 + 100, y: Math.random() * 100 + 50 },
-      size: { width: 800, height: 600 },
-    });
+  const { openWindow, windows } = useWindowStore();
+
+  const handleAppClick = (app: (typeof dockApps)[0]) => {
+    openWindow(app.id as keyof typeof windows);
     onClose();
   };
 
@@ -90,17 +47,17 @@ export default function Spotlight({ onClose, onAppClick }: SpotlightProps) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [filteredApps, selectedIndex]);
+  }, [filteredApps, selectedIndex, handleAppClick]);
 
   useEffect(() => {
     if (searchTerm) {
-      const filtered = spotlightApps.filter((app) =>
-        app.title.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = dockApps.filter((app) =>
+        app.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredApps(filtered);
       setSelectedIndex(0); // Reset selection when search changes
     } else {
-      setFilteredApps(spotlightApps);
+      setFilteredApps(dockApps);
     }
   }, [searchTerm]);
 
@@ -138,14 +95,14 @@ export default function Spotlight({ onClose, onAppClick }: SpotlightProps) {
               >
                 <div className="w-8 h-8 flex items-center justify-center mr-3">
                   <Image
-                    src={app.icon || "/placeholder.svg"}
-                    alt={app.title}
+                    src={`/images/${app.icon}` || "/placeholder.svg"}
+                    alt={app.name}
                     className="w-6 h-6 object-contain"
                     height={6}
                     width={6}
                   />
                 </div>
-                <span className="text-white">{app.title}</span>
+                <span className="text-white">{app.name}</span>
               </div>
             ))}
           </div>

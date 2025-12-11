@@ -4,8 +4,8 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import { User, Moon, Sun } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
 interface LoginScreenProps {
@@ -85,7 +85,7 @@ export default function LoginScreen({
         <h2 className="text-white text-2xl font-medium mb-6">Talha Jamil</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
-          {/* <Input
+          <Input
             type="password"
             placeholder="Enter Password"
             value={password}
@@ -96,39 +96,18 @@ export default function LoginScreen({
             className={`w-64 bg-white/20 backdrop-blur-md border-0 text-white placeholder:text-white/70 mb-2 ${
               error ? "ring-2 ring-red-500" : ""
             }`}
-          /> */}
-
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError(false);
-            }}
-            className={`w-64 bg-white/20 backdrop-blur-md border-0 text-white placeholder:text-white/70 mb-2 ${
-              error ? "ring-2 ring-red-500" : ""
-            } flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm`}
           />
 
           {error && (
             <p className="text-red-500 text-sm mb-2">Please enter a password</p>
           )}
-          {/* <Button
+          <Button
             type="submit"
             variant="outline"
             className="mt-2 bg-white/20 backdrop-blur-md border-0 text-white hover:bg-white/30"
           >
             Login
-          </Button> */}
-
-          <button
-            type="submit"
-            // variant="outline"
-            className="border border-input bg-background hover:bg-accent hover:text-accent-foreground mt-2 bg-white/20 backdrop-blur-md text-white hover:bg-white/30 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-12 w-24"
-          >
-            Login
-          </button>
+          </Button>
         </form>
       </div>
 
