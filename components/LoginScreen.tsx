@@ -7,21 +7,19 @@ import { User, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 interface LoginScreenProps {
   onLogin: () => void;
-  isDarkMode: boolean;
-  onToggleDarkMode: () => void;
 }
 
-export default function LoginScreen({
-  onLogin,
-  isDarkMode,
-  onToggleDarkMode,
-}: LoginScreenProps) {
+export default function LoginScreen({ onLogin }: LoginScreenProps) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [time, setTime] = useState(new Date());
+  const { theme, resolvedTheme, setTheme } = useTheme();
+
+  const isDarkMode = (resolvedTheme ?? theme) === "dark";
 
   // Update time every second
   useEffect(() => {
@@ -54,13 +52,16 @@ export default function LoginScreen({
     day: "numeric",
   });
 
-  // Choose wallpaper based on dark/light mode
-  const wallpaper = isDarkMode ? "/wallpaper-night.jpg" : "/wallpaper-day.jpg";
-
   return (
     <div
       className="h-screen w-screen bg-cover bg-center flex flex-col items-center justify-center"
-      style={{ backgroundImage: `url('${wallpaper}')` }}
+      style={{
+        backgroundImage: `url('${
+          isDarkMode
+            ? "/images/wallpaper-night.jpg"
+            : "/images/wallpaper-day.jpg"
+        }')`,
+      }}
     >
       <div className="flex flex-col items-center mb-8">
         <div className="text-white text-5xl font-light mb-2">
@@ -114,7 +115,7 @@ export default function LoginScreen({
       <div className="fixed bottom-8">
         <button
           className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10"
-          onClick={onToggleDarkMode}
+          onClick={() => setTheme(isDarkMode ? "light" : "dark")}
         >
           {isDarkMode ? (
             <Sun className="w-6 h-6" />

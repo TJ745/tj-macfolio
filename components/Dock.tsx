@@ -1,18 +1,26 @@
 "use client";
 import { dockApps } from "@/constants";
-import useWindowStore from "@/store/window";
+import useWindowStore, { WindowKey } from "@/store/window";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import React, { useRef } from "react";
 import { Tooltip } from "react-tooltip";
 
+type DockApp = {
+  id: WindowKey;
+  name: string;
+  icon: string;
+  canOpen?: boolean;
+};
+
 interface DockProps {
   isDarkMode?: boolean;
 }
 
 const Dock: React.FC<DockProps> = () => {
-  const { openWindow, closeWindow, windows } = useWindowStore();
+  const { openWindow, closeWindow, windows, maximizeWindow, restoreWindow } =
+    useWindowStore();
   const dockRef = useRef(null);
 
   useGSAP(() => {
@@ -21,7 +29,7 @@ const Dock: React.FC<DockProps> = () => {
 
     const icons = dock.querySelectorAll(".dock-icon");
 
-    const animateIcons = (mouseX) => {
+    const animateIcons = (mouseX: number) => {
       const { left } = dock.getBoundingClientRect();
 
       icons.forEach((icon) => {
@@ -39,7 +47,7 @@ const Dock: React.FC<DockProps> = () => {
       });
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const { left } = dock.getBoundingClientRect();
 
       animateIcons(e.clientX - left);
@@ -63,7 +71,7 @@ const Dock: React.FC<DockProps> = () => {
     };
   }, []);
 
-  const toggleApp = (app: { id: string; canOpen?: boolean }) => {
+  const toggleApp = (app: DockApp) => {
     if (!app.canOpen) return;
 
     const win = windows[app.id];
@@ -72,10 +80,20 @@ const Dock: React.FC<DockProps> = () => {
       return;
     }
 
-    if (win.isOpen) {
-      closeWindow(app.id);
+    // if (win.isOpen) {
+    //   closeWindow(app.id);
+    // } else {
+    //   openWindow(app.id);
+    // }
+    if (win.isOpen && !win.isMinimized && !win.isMaximized) {
+      // maximize window on click if open
+      maximizeWindow(app.id);
+    } else if (win.isMinimized) {
+      restoreWindow(app.id); // restore if minimized
+    } else if (win.isMaximized) {
+      restoreWindow(app.id); // restore if maximized
     } else {
-      openWindow(app.id);
+      openWindow(app.id); // first time open
     }
   };
 
@@ -86,33 +104,46 @@ const Dock: React.FC<DockProps> = () => {
     >
       <div
         ref={dockRef}
-        className="bg-white/20 backdrop-blur-md justify-between rounded-2xl p-1.5 flex items-end gap-1.5"
+        className="bg-white/20 backdrop-blur-md rounded-2xl p-1.5 flex items-end gap-1.5"
       >
-        {dockApps.map(({ id, name, icon, canOpen }) => (
-          <div key={id} className="relative flex justify-center">
-            <button
-              type="button"
-              className="size-14 cursor-pointer"
-              aria-label={name}
-              data-tooltip-id="dock-tooltip"
-              data-tooltip-content={name}
-              data-tooltip-delay-show={150}
-              disabled={!canOpen}
-              onClick={() => toggleApp({ id, canOpen })}
-            >
-              <Image
-                src={`/images/${icon}`}
-                alt={name}
-                loading="lazy"
-                className={`object-cover object-center ${
-                  canOpen ? "" : "opacity-60"
-                }`}
-                height={100}
-                width={100}
-              />
-            </button>
-          </div>
-        ))}
+        {dockApps.map((app) => {
+          const win = windows[app.id];
+          const isActive = win?.isOpen;
+          const isMinimized = win?.isMinimized;
+
+          return (
+            <div key={app.id} className="relative flex flex-col items-center">
+              <button
+                type="button"
+                className="dock-icon size-14 cursor-pointer"
+                aria-label={app.name}
+                data-tooltip-id="dock-tooltip"
+                data-tooltip-content={app.name}
+                data-tooltip-delay-show={150}
+                disabled={!app.canOpen}
+                onClick={() => toggleApp(app as DockApp)}
+              >
+                <Image
+                  src={`/images/${app.icon}`}
+                  alt={app.name}
+                  loading="lazy"
+                  className={`object-cover object-center ${
+                    app.canOpen ? "" : "opacity-60"
+                  }`}
+                  height={100}
+                  width={100}
+                />
+              </button>
+              {(isActive || isMinimized) && (
+                <span
+                  className={`mt-1 h-1.5 w-1.5 rounded-full
+            ${isActive ? "bg-white opacity-100" : "bg-white opacity-40"}
+          `}
+                />
+              )}
+            </div>
+          );
+        })}
 
         <Tooltip
           id="dock-tooltip"

@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { useState, useEffect, useRef } from "react";
+
 import Dock from "@/components/Dock";
 import Navbar from "@/components/Navbar";
 import Wallpaper from "@/components/Wallpaper";
@@ -24,14 +25,14 @@ import Resume from "./Resume";
 
 import useWindowStore, { WindowKey } from "@/store/window";
 import Launchpad from "@/components/Launchpad";
+import FaceTime from "./Facetime";
+import { useTheme } from "next-themes";
 
 interface DesktopProps {
   onLogout: () => void;
   onSleep: () => void;
   onShutdown: () => void;
   onRestart: () => void;
-  initialDarkMode: boolean;
-  onToggleDarkMode: () => void;
   initialBrightness: number;
   onBrightnessChange: (value: number) => void;
 }
@@ -41,17 +42,16 @@ export default function Desktop({
   onSleep,
   onShutdown,
   onRestart,
-  initialDarkMode,
-  onToggleDarkMode,
   initialBrightness,
   onBrightnessChange,
 }: DesktopProps) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const [time, setTime] = useState(new Date());
-  const [isDarkMode, setIsDarkMode] = useState(initialDarkMode);
   const [screenBrightness, setScreenBrightness] = useState(initialBrightness);
   const [showControlCenter, setShowControlCenter] = useState(false);
   const [showSpotlight, setShowSpotlight] = useState(false);
-  const [showLaunchpad, setShowLaunchpad] = useState(false);
 
   const desktopRef = useRef<HTMLDivElement>(null);
   const { windows } = useWindowStore();
@@ -62,10 +62,6 @@ export default function Desktop({
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    setIsDarkMode(initialDarkMode);
-  }, [initialDarkMode]);
 
   useEffect(() => {
     setScreenBrightness(initialBrightness);
@@ -81,18 +77,6 @@ export default function Desktop({
     if (showControlCenter) setShowControlCenter(false);
   };
 
-  const toggleLaunchpad = () => {
-    setShowLaunchpad(!showLaunchpad);
-    if (showControlCenter) setShowControlCenter(false);
-    if (showSpotlight) setShowSpotlight(false);
-  };
-
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    onToggleDarkMode();
-  };
-
   const updateBrightness = (value: number) => {
     setScreenBrightness(value);
     onBrightnessChange(value);
@@ -105,16 +89,27 @@ export default function Desktop({
     }
   };
 
+  const activeWindowEntry = Object.entries(windows)
+    .filter(([_, win]) => win.isOpen)
+    .sort((a, b) => b[1].zIndex - a[1].zIndex)[0]; // top-most window
+
+  const activeWindow = activeWindowEntry
+    ? {
+        id: activeWindowEntry[0],
+        title: activeWindowEntry[1].title, // use the title from your window object
+      }
+    : null;
+
   return (
     <div className="relative">
       <div
         ref={desktopRef}
-        className={`relative h-screen w-screen overflow-hidden ${
-          isDarkMode ? "dark" : ""
-        }`}
+        className={`relative h-screen w-screen overflow-hidden`}
         onClick={handleDesktopClick}
       >
-        <Wallpaper isDarkMode={isDarkMode} />
+        <Wallpaper />
+        <HomePage />
+        <Welcome />
 
         <Navbar
           onLogout={onLogout}
@@ -123,16 +118,13 @@ export default function Desktop({
           onRestart={onRestart}
           onSpotlightClick={toggleSpotlight}
           onControlCenterClick={toggleControlCenter}
-          isDarkMode={isDarkMode}
-          activeWindow={null}
+          activeWindow={activeWindow}
         />
 
         {/* Control Center */}
         {showControlCenter && (
           <ControlCenter
             onClose={() => setShowControlCenter(false)}
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={toggleDarkMode}
             brightness={screenBrightness}
             onBrightnessChange={updateBrightness}
           />
@@ -141,38 +133,52 @@ export default function Desktop({
         {/* Spotlight */}
         {showSpotlight && <Spotlight onClose={() => setShowSpotlight(false)} />}
 
-        {showLaunchpad && <Launchpad onClose={() => setShowLaunchpad(false)} />}
-
-        <Dock isDarkMode={isDarkMode} />
-
-        <HomePage />
-        <Welcome />
+        <Dock />
 
         {Object.entries(windows).map(([key, win]) => {
           if (!win.isOpen) return null;
 
+          const style: React.CSSProperties = win.isMaximized
+            ? {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: win.zIndex,
+              }
+            : { zIndex: win.zIndex };
+
           // Map window keys to imported wrappers
           switch (key as WindowKey) {
             case "finder":
-              return <Finder key={key} />;
+              return <Finder key={key} style={style} />;
             case "safari":
-              return <Safari key={key} />;
+              return <Safari key={key} style={style} />;
             case "photos":
-              return <Photos key={key} />;
+              return <Photos key={key} style={style} />;
             case "contact":
-              return <Contact key={key} />;
+              return <Contact key={key} style={style} />;
             case "terminal":
-              return <Terminal key={key} />;
+              return <Terminal key={key} style={style} />;
             case "txtfile":
-              return <Text key={key} />;
+              return <Text key={key} style={style} />;
             case "imgfile":
-              return <ImageWin key={key} />;
+              return <ImageWin key={key} style={style} />;
             case "resume":
-              return <Resume key={key} />;
+              return <Resume key={key} style={style} />;
+            case "facetime":
+              return <FaceTime key={key} style={style} />;
             default:
               return null;
           }
         })}
+
+        {windows.launchpad.isOpen && (
+          <Launchpad
+            onClose={() => useWindowStore.getState().closeWindow("launchpad")}
+          />
+        )}
       </div>
 
       {/* Brightness overlay */}

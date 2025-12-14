@@ -1,21 +1,28 @@
 "use client";
 
 import { dockApps } from "@/constants";
-import useWindowStore from "@/store/window";
-import { useState, useEffect, useRef } from "react";
+import useWindowStore, { WindowKey } from "@/store/window";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 
 interface LaunchpadProps {
   onClose: () => void;
 }
 
+type LaunchpadApp = {
+  id: WindowKey;
+  name: string;
+  icon: string;
+  canOpen?: boolean;
+};
+
 // Improve Launchpad appearance
 export default function Launchpad({ onClose }: LaunchpadProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApps, setFilteredApps] = useState(dockApps);
+  const [filteredApps, setFilteredApps] = useState(dockApps as LaunchpadApp[]);
   const [isVisible, setIsVisible] = useState(false);
-  //   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { openWindow, windows } = useWindowStore();
+  const { openWindow } = useWindowStore();
 
   useEffect(() => {
     // Animation effect
@@ -23,35 +30,30 @@ export default function Launchpad({ onClose }: LaunchpadProps) {
 
     if (searchTerm) {
       setFilteredApps(
-        dockApps.filter((app) =>
+        (dockApps as LaunchpadApp[]).filter((app) =>
           app.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     } else {
-      setFilteredApps(dockApps);
+      setFilteredApps(dockApps as LaunchpadApp[]);
     }
   }, [searchTerm]);
 
-  const handleAppClick = (app: (typeof dockApps)[0]) => {
-    openWindow(app.id as keyof typeof windows);
+  const handleAppClick = (app: LaunchpadApp) => {
+    openWindow(app.id);
     onClose();
   };
 
-  //   const handleClose = () => {
-  //     setIsVisible(false);
-  //     setTimeout(onClose, 300); // Wait for animation to complete
-  //   };
-
   return (
     <div
-      className={`fixed inset-0 bg-black/40 backdrop-blur-md z-40 flex flex-col items-center justify-center
+      className={`fixed inset-0 bg-black/40 backdrop-blur-md z-1500 flex flex-col items-center justify-center
         transition-opacity duration-300 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       onClick={onClose}
     >
       <div
-        className={`w-full max-w-4xl px-8 py-12 transition-transform duration-300 
+        className={`w-full max-w-4xl px-8 py-12 transition-transform duration-300
           ${isVisible ? "translate-y-0" : "translate-y-10"}`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -87,10 +89,12 @@ export default function Launchpad({ onClose }: LaunchpadProps) {
               onClick={() => handleAppClick(app)}
             >
               <div className="w-16 h-16 flex items-center justify-center mb-2 rounded-xl group-hover:bg-white/20 transition-colors">
-                <img
-                  src={app.icon || "/placeholder.svg"}
+                <Image
+                  src={`/images/${app.icon}`}
                   alt={app.name}
                   className="w-12 h-12 object-contain"
+                  width={48}
+                  height={48}
                 />
               </div>
               <span className="text-white text-sm text-center">{app.name}</span>

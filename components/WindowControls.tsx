@@ -6,7 +6,25 @@ interface WindowControlsProps {
 }
 
 const WindowControls = ({ target }: WindowControlsProps) => {
-  const { closeWindow, maximizeWindow, minimizeWindow } = useWindowStore();
+  const {
+    closeWindow,
+    maximizeWindow,
+    minimizeWindow,
+    restoreWindow,
+    windows,
+  } = useWindowStore();
+
+  const win = windows[target];
+
+  const handleMaximize = () => {
+    if (!win) return;
+
+    if (win.isMaximized) {
+      restoreWindow(target); // restore if already maximized
+    } else {
+      maximizeWindow(target); // maximize if normal
+    }
+  };
 
   return (
     <div id="window-controls" className="flex gap-2">
@@ -26,7 +44,7 @@ const WindowControls = ({ target }: WindowControlsProps) => {
         className="size-3.5 rounded-full bg-[#2acb42] cursor-pointer"
         role="button"
         aria-label="Maximize Window"
-        onClick={() => maximizeWindow(target)}
+        onClick={handleMaximize}
       />
     </div>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Search, Wifi, WifiOff } from "lucide-react";
 import { AppleIcon } from "./AppleIcon";
+import { useTheme } from "next-themes";
 
 interface BatteryManager {
   level: number;
@@ -19,7 +20,6 @@ interface NavbarProps {
   onRestart: () => void;
   onSpotlightClick: () => void;
   onControlCenterClick: () => void;
-  isDarkMode: boolean;
   activeWindow: { id: string; title: string } | null;
 }
 
@@ -30,9 +30,11 @@ const Navbar = ({
   onRestart,
   onSpotlightClick,
   onControlCenterClick,
-  isDarkMode,
   activeWindow,
 }: NavbarProps) => {
+  const { theme, resolvedTheme } = useTheme();
+  const isDarkMode = (resolvedTheme ?? theme) === "dark";
+
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [batteryLevel, setBatteryLevel] = useState(100);
   const [isCharging, setIsCharging] = useState(false);
@@ -49,11 +51,6 @@ const Navbar = ({
 
   const menuRef = useRef<HTMLDivElement>(null);
   const wifiRef = useRef<HTMLDivElement>(null);
-
-  const updateBatteryStatus = (battery: BatteryManager) => {
-    setBatteryLevel(Math.round(battery.level * 100));
-    setIsCharging(battery.charging);
-  };
 
   useEffect(() => {
     const update = () => setTime(new Date());
@@ -76,13 +73,13 @@ const Navbar = ({
     if ("getBattery" in navigator) {
       // @ts-expect-error - navigator.getBattery is non-standard
       navigator.getBattery().then((battery: BatteryManager) => {
-        updateBatteryStatus(battery);
-
+        setBatteryLevel(Math.round(battery.level * 100));
+        setIsCharging(battery.charging);
         battery.addEventListener("levelchange", () =>
-          updateBatteryStatus(battery)
+          setBatteryLevel(Math.round(battery.level * 100))
         );
         battery.addEventListener("chargingchange", () =>
-          updateBatteryStatus(battery)
+          setIsCharging(battery.charging)
         );
       });
     }
@@ -129,10 +126,10 @@ const Navbar = ({
   return (
     <div
       ref={menuRef}
-      className={`fixed top-0 left-0 right-0 h-10 ${
+      className={`fixed top-0 left-0 right-0 h-10 z-1400 ${
         isDarkMode
-          ? "bg-black/40 backdrop-blur-md"
-          : "bg-white/40 backdrop-blur-3xl"
+          ? "bg-black/10 backdrop-blur-md"
+          : "bg-white/10 backdrop-blur-md"
       } z-50 flex items-center px-5 p-2 ${
         isDarkMode ? "text-white" : "text-gray-800"
       }`}
@@ -192,7 +189,7 @@ const Navbar = ({
               }`}
               onClick={onRestart}
             >
-              Restart...
+              Restart
             </button>
             <button
               className={`w-full text-left px-4 py-1 ${
@@ -200,7 +197,7 @@ const Navbar = ({
               }`}
               onClick={onShutdown}
             >
-              Shut Down...
+              Shut Down
             </button>
             <div className="border-t border-gray-700 my-1"></div>
             <button
@@ -209,7 +206,7 @@ const Navbar = ({
               }`}
               onClick={onLogout}
             >
-              Log Out Talha...
+              Log Out Talha
             </button>
           </div>
         )}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+
 import BootScreen from "@/components/BootScreen";
 import LoginScreen from "@/components/LoginScreen";
 import Desktop from "@/windows/Desktop";
@@ -20,13 +22,8 @@ import { Draggable } from "gsap/Draggable";
 gsap.registerPlugin(Draggable);
 
 export default function Home() {
+  const { theme, setTheme } = useTheme();
   const [systemState, setSystemState] = useState<SystemState>("booting");
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("isDarkMode") === "true";
-    }
-    return false;
-  });
 
   const [screenBrightness, setScreenBrightness] = useState<number>(() => {
     if (typeof window !== "undefined") {
@@ -75,9 +72,7 @@ export default function Home() {
   };
 
   const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    localStorage.setItem("isDarkMode", newMode.toString());
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const updateBrightness = (value: number) => {
@@ -93,13 +88,7 @@ export default function Home() {
         return <BootScreen />;
 
       case "login":
-        return (
-          <LoginScreen
-            onLogin={handleLogin}
-            isDarkMode={isDarkMode}
-            onToggleDarkMode={toggleDarkMode}
-          />
-        );
+        return <LoginScreen onLogin={handleLogin} />;
 
       case "desktop":
         return (
@@ -108,15 +97,13 @@ export default function Home() {
             onSleep={handleSleep}
             onShutdown={handleShutdown}
             onRestart={handleRestart}
-            initialDarkMode={isDarkMode}
-            onToggleDarkMode={toggleDarkMode}
             initialBrightness={screenBrightness}
             onBrightnessChange={updateBrightness}
           />
         );
 
       case "sleeping":
-        return <SleepScreen onWakeUp={handleWakeUp} isDarkMode={isDarkMode} />;
+        return <SleepScreen onWakeUp={handleWakeUp} />;
 
       case "shutdown":
         return <ShutdownScreen onBoot={handleBoot} />;

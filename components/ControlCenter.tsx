@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Wifi,
   Bluetooth,
@@ -10,26 +10,28 @@ import {
   VolumeX,
   Maximize,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface ControlCenterProps {
   onClose: () => void;
-  isDarkMode: boolean;
-  onToggleDarkMode: () => void;
   brightness: number;
   onBrightnessChange: (value: number) => void;
 }
 
 export default function ControlCenter({
   onClose,
-  isDarkMode,
-  onToggleDarkMode,
   brightness,
   onBrightnessChange,
 }: ControlCenterProps) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const [wifiEnabled, setWifiEnabled] = useState(true);
   const [bluetoothEnabled, setBluetoothEnabled] = useState(true);
   const [volume, setVolume] = useState(75);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   // Load WiFi state from localStorage
   useEffect(() => {
@@ -53,6 +55,19 @@ export default function ControlCenter({
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   // Update the Control Center to store WiFi state in localStorage
   const toggleWifi = () => {
     const newState = !wifiEnabled;
@@ -73,8 +88,13 @@ export default function ControlCenter({
     }
   };
 
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
   return (
     <div
+      ref={ref}
       className="fixed top-10 right-4 w-80 bg-gray-800/80 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl z-40"
       onClick={(e) => e.stopPropagation()}
     >
@@ -102,17 +122,17 @@ export default function ControlCenter({
 
           <button
             className={`flex flex-col items-center justify-center p-3 rounded-xl ${
-              isDarkMode ? "bg-blue-500" : "bg-gray-700"
+              isDark ? "bg-blue-500" : "bg-gray-700"
             }`}
-            onClick={onToggleDarkMode}
+            onClick={toggleTheme}
           >
-            {isDarkMode ? (
+            {isDark ? (
               <Moon className="w-6 h-6 text-white mb-1" />
             ) : (
               <Sun className="w-6 h-6 text-white mb-1" />
             )}
             <span className="text-white text-xs">
-              {isDarkMode ? "Dark" : "Light"}
+              {isDark ? "Dark" : "Light"}
             </span>
           </button>
 

@@ -12,7 +12,8 @@ interface WindowWrapperProps {
 const WindowWrapper = (Component: any, windowKey: string) => {
   const Wrapped = (props: any) => {
     const { focusWindow, windows } = useWindowStore();
-    const { isOpen, zIndex } = windows[windowKey as keyof typeof windows];
+    const win = windows[windowKey as keyof typeof windows];
+    const { isOpen, isMaximized, zIndex } = win;
     const ref = useRef(null);
 
     useGSAP(() => {
@@ -41,12 +42,35 @@ const WindowWrapper = (Component: any, windowKey: string) => {
       return () => instances.forEach((inst) => inst.kill());
     }, []);
 
+    // useLayoutEffect(() => {
+    //   const el = ref.current;
+    //   if (!el) return;
+
+    //   el.style.display = isOpen ? "block" : "none";
+    // }, [isOpen]);
+
     useLayoutEffect(() => {
       const el = ref.current;
       if (!el) return;
 
-      el.style.display = isOpen ? "block" : "none";
-    }, [isOpen]);
+      if (!isOpen) {
+        el.style.display = "none";
+      } else if (isMaximized) {
+        el.style.display = "block";
+        const navbarHeight = 40;
+        el.style.top = `${navbarHeight}px`;
+        el.style.left = "0";
+        el.style.width = "100%";
+        el.style.height = `calc(100% - ${navbarHeight}px)`;
+      } else {
+        // normal window, can override width/height with CSS
+        el.style.display = "block";
+        el.style.top = "";
+        el.style.left = "";
+        el.style.width = "";
+        el.style.height = "";
+      }
+    }, [isOpen, isMaximized]);
 
     return (
       <section id={windowKey} ref={ref} style={{ zIndex }} className="absolute">

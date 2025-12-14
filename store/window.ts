@@ -4,8 +4,11 @@ import { INITIAL_Z_INDEX, WINDOW_CONFIG } from "@/constants";
 
 interface WindowState {
   isOpen: boolean;
+  isMinimized: boolean;
+  isMaximized: boolean;
   zIndex: number;
   data: unknown;
+  title: string;
 }
 
 export type WindowKey = keyof typeof WINDOW_CONFIG;
@@ -19,6 +22,7 @@ export interface WindowStore {
   focusWindow: (windowKey: WindowKey) => void;
   minimizeWindow: (windowKey: WindowKey) => void;
   maximizeWindow: (windowKey: WindowKey) => void;
+  restoreWindow: (windowKey: WindowKey) => void;
 }
 
 const useWindowStore = create<WindowStore>()(
@@ -32,6 +36,7 @@ const useWindowStore = create<WindowStore>()(
         const win = state.windows[windowKey];
         if(!win) return;
         win.isOpen = true;
+        win.isMinimized = false;
         win.zIndex = state.nextZIndex;
         win.data = data ?? win.data;
         state.nextZIndex++;
@@ -41,6 +46,7 @@ const useWindowStore = create<WindowStore>()(
         const win = state.windows[windowKey];
         if(!win) return;
         win.isOpen = false;
+        win.isMinimized = false;
         win.zIndex = INITIAL_Z_INDEX;
         win.data = null;
     }),
@@ -48,6 +54,8 @@ const useWindowStore = create<WindowStore>()(
     focusWindow: (windowKey) => set((state) => {
         const win = state.windows[windowKey];
         if(!win) return;
+        win.isOpen = true;
+    win.isMinimized = false;
         win.zIndex = state.nextZIndex++;
     }),
 
@@ -56,13 +64,28 @@ const useWindowStore = create<WindowStore>()(
     const win = state.windows[windowKey];
     if (!win) return;
     win.isOpen = false; // or just visually minimize
+        win.isMinimized = true;
+
   }),
-  
+
 maximizeWindow: (windowKey) =>
   set((state) => {
     const win = state.windows[windowKey];
     if (!win) return;
     win.isOpen = true;
+    win.isMinimized = false;
+    win.isMaximized = true;
+    win.zIndex = state.nextZIndex++;
+  }),
+
+  restoreWindow: (windowKey: WindowKey) =>
+  set((state) => {
+    const win = state.windows[windowKey];
+    if (!win) return;
+
+    win.isOpen = true;
+    win.isMinimized = false;
+    win.isMaximized = false; // restore normal size
     win.zIndex = state.nextZIndex++;
   }),
   }))

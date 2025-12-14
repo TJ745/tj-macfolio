@@ -1,4 +1,11 @@
-const dockApps = [
+import { WindowKey } from "@/store/window";
+
+const dockApps: {
+  id: WindowKey;
+  name: string;
+  icon: string;
+  canOpen: boolean;
+}[] = [
   {
     id: "finder",
     name: "Portfolio", // was "Finder"
@@ -6,9 +13,21 @@ const dockApps = [
     canOpen: true,
   },
   {
+    id: "launchpad",
+    name: "Launchpad", // was "Trash"
+    icon: "launchpad.png",
+    canOpen: true,
+  },
+  {
     id: "safari",
     name: "Articles", // was "Safari"
     icon: "safari.png",
+    canOpen: true,
+  },
+  {
+    id: "facetime",
+    name: "FaceTime", // was "Safari"
+    icon: "facetime.png",
     canOpen: true,
   },
   {
@@ -35,12 +54,7 @@ const dockApps = [
     icon: "trash.png",
     canOpen: false,
   },
-  {
-    id: "launchpad",
-    name: "Launchpad", // was "Trash"
-    icon: "trash.png",
-    canOpen: true,
-  },
+  
 ];
 
 const blogPosts = [
@@ -173,15 +187,7 @@ const gallery = [
   },
 ];
 
-export {
-  
-  dockApps,
-  blogPosts,
-  techStack,
-  socials,
-  photosLinks,
-  gallery,
-};
+export { dockApps, blogPosts, techStack, socials, photosLinks, gallery };
 
 const WORK_LOCATION = {
   id: 1,
@@ -451,7 +457,6 @@ const TRASH_LOCATION = {
   ],
 };
 
-
 export const locations = {
   work: WORK_LOCATION,
   about: ABOUT_LOCATION,
@@ -460,17 +465,87 @@ export const locations = {
 } as const;
 
 const INITIAL_Z_INDEX = 1000;
+const LAUNCHPAD_Z_INDEX = 1500;    // launchpad
+const NAVBAR_Z_INDEX = 2000;       // navbar always on top
 
 const WINDOW_CONFIG = {
-  launchpad: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  resume: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  safari: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  photos: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  terminal: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  txtfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
-  imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  launchpad: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: LAUNCHPAD_Z_INDEX,
+    data: null,
+  },
+  finder: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title: "Finder"
+  },
+  contact: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title: "Contact"
+  },
+  resume: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Resume"
+  },
+  safari: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Safari"
+  },
+  facetime: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title: "Facetime"
+  },
+  photos: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Photos"
+  },
+  terminal: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Terminal"
+  },
+  txtfile: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+  },
+  imgfile: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+  },
 };
 
 export { INITIAL_Z_INDEX, WINDOW_CONFIG };
