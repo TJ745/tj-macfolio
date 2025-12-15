@@ -18,15 +18,24 @@ import Safari from "./Safari";
 import Photos from "./Photos";
 import Contact from "./Contact";
 import Terminal from "./Terminal";
+import FaceTime from "./Facetime";
+import Music from "./Music";
+import Spotify from "./Spotify";
+import Weather from "./Weather";
+import Notes from "./Notes";
+import Calculator from "./Calculator";
+import Calendar from "./Calendar";
 
 import Text from "./Text";
 import ImageWin from "./ImageWin";
 import Resume from "./Resume";
 
-import useWindowStore, { WindowKey } from "@/store/window";
 import Launchpad from "@/components/Launchpad";
-import FaceTime from "./Facetime";
+
+import useWindowStore, { WindowKey } from "@/store/window";
 import { useTheme } from "next-themes";
+import Snake from "./Snake";
+import Settings from "./Settings";
 
 interface DesktopProps {
   onLogout: () => void;
@@ -169,6 +178,22 @@ export default function Desktop({
               return <Resume key={key} style={style} />;
             case "facetime":
               return <FaceTime key={key} style={style} />;
+            case "music":
+              return <Music key={key} style={style} />;
+            case "spotify":
+              return <Spotify key={key} style={style} />;
+            case "notes":
+              return <Notes key={key} style={style} />;
+            case "weather":
+              return <Weather key={key} style={style} />;
+            case "snake":
+              return <Snake key={key} style={style} />;
+            case "settings":
+              return <Settings key={key} style={style} />;
+            case "calculator":
+              return <Calculator key={key} style={style} />;
+            case "calendar":
+              return <Calendar key={key} style={style} />;
             default:
               return null;
           }

@@ -37,6 +37,48 @@ const dockApps: {
     canOpen: true,
   },
   {
+    id: "music",
+    name: "Music",
+    icon: "music.webp",
+    canOpen: true,
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    icon: "spotify.png",
+    canOpen: true,
+  },
+  {
+    id: "weather",
+    name: "Weather",
+    icon: "weather.png",
+    canOpen: true,
+  },
+  {
+    id: "notes",
+    name: "Notes",
+    icon: "notes.png",
+    canOpen: true,
+  },
+  {
+    id: "calculator",
+    name: "Calculator",
+    icon: "calculator.webp",
+    canOpen: true,
+  },
+  {
+    id: "calendar",
+    name: "Calendar",
+    icon: "calendar.webp",
+    canOpen: true,
+  },
+  {
+    id: "snake",
+    name: "Snake",
+    icon: "snake.png",
+    canOpen: true,
+  },
+  {
     id: "contact",
     name: "Contact", // or "Get in touch"
     icon: "contact.png",
@@ -46,6 +88,12 @@ const dockApps: {
     id: "terminal",
     name: "Skills", // was "Terminal"
     icon: "terminal.png",
+    canOpen: true,
+  },
+  {
+    id: "settings",
+    name: "Settings", // was "Terminal"
+    icon: "setting.png",
     canOpen: true,
   },
   {
@@ -523,6 +571,70 @@ const WINDOW_CONFIG = {
     zIndex: INITIAL_Z_INDEX,
     data: null,
     title:"Photos"
+  },
+  music: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Music"
+  },
+  spotify: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Spotify"
+  },
+  snake: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Snake"
+  },
+  weather: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Weather"
+  },
+  notes: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Notes"
+  },
+  settings: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Settings"
+  },
+  calculator: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Calculator"
+  },
+  calendar: {
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: INITIAL_Z_INDEX,
+    data: null,
+    title:"Calendar"
   },
   terminal: {
     isOpen: false,
