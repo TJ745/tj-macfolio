@@ -16,6 +16,7 @@ import {
 import WindowWrapper from "@/components/WindowWrapper";
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
+import WindowControls from "@/components/WindowControls";
 
 const weatherData = {
   "New York": {
@@ -387,139 +388,146 @@ const Weather = () => {
   };
 
   return (
-    <div
-      className={`h-full ${bgColor} ${textColor} flex flex-col relative overflow-hidden`}
-    >
-      {/* Canvas for weather effects */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none z-0"
-      />
+    <>
+      <div id="window-header">
+        <WindowControls target="weather" />
+      </div>
+      <div
+        className={`h-full ${bgColor} ${textColor} flex flex-col relative overflow-hidden`}
+      >
+        {/* Canvas for weather effects */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 pointer-events-none z-0"
+        />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col h-full">
-        {/* Search bar */}
-        <div className="p-4 flex items-center space-x-2">
-          <div className="relative flex-1">
-            <Input
-              type="text"
-              placeholder="Search city..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className={`pl-10 ${
-                isDarkMode
-                  ? "bg-gray-800 border-gray-700"
-                  : "bg-white border-gray-300"
-              }`}
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          </div>
-          <Button
-            onClick={handleSearch}
-            variant={isDarkMode ? "outline" : "default"}
-            className={isDarkMode ? "border-gray-700" : ""}
-          >
-            Search
-          </Button>
-        </div>
-
-        {/* Current weather */}
-        <div className="px-6 py-4 flex flex-col md:flex-row items-center justify-between">
-          <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
-            <div className="flex items-center">
-              <MapPin className="w-5 h-5 mr-2 text-blue-500" />
-              <h2 className="text-2xl font-bold">{city}</h2>
-            </div>
-            <p className="text-gray-500 text-sm mt-1">Today</p>
-
-            <div className="flex items-center mt-4">
-              <div className="text-6xl font-light mr-4">
-                {weather.current.temp}°
-              </div>
-              <div>
-                <p className="text-lg">{weather.current.condition}</p>
-                <p className="text-sm text-gray-500">
-                  Feels like {weather.current.feelsLike}°
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`${cardBg} p-4 rounded-lg border ${borderColor} grid grid-cols-2 gap-4 w-full md:w-auto`}
-          >
-            <div className="flex items-center">
-              <Droplets className="w-5 h-5 mr-2 text-blue-500" />
-              <div>
-                <p className="text-sm text-gray-500">Humidity</p>
-                <p className="font-medium">{weather.current.humidity}%</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Wind className="w-5 h-5 mr-2 text-blue-500" />
-              <div>
-                <p className="text-sm text-gray-500">Wind</p>
-                <p className="font-medium">{weather.current.windSpeed} km/h</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Sunrise className="w-5 h-5 mr-2 text-orange-500" />
-              <div>
-                <p className="text-sm text-gray-500">Sunrise</p>
-                <p className="font-medium">{weather.current.sunrise}</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Sunset className="w-5 h-5 mr-2 text-orange-500" />
-              <div>
-                <p className="text-sm text-gray-500">Sunset</p>
-                <p className="font-medium">{weather.current.sunset}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Forecast */}
-        <div className="px-6 mt-4">
-          <h3 className="text-lg font-medium mb-3">5-Day Forecast</h3>
-          <div
-            className={`grid grid-cols-5 gap-2 ${cardBg} rounded-lg border ${borderColor} p-4`}
-          >
-            {weather.forecast.map((day, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <p className="font-medium">{day.day}</p>
-                <div className="my-2">{getWeatherIcon(day.condition)}</div>
-                <p className="text-lg font-medium">{day.temp}°</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* City selector */}
-        <div className="px-6 mt-6">
-          <h3 className="text-lg font-medium mb-3">Popular Cities</h3>
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(weatherData).map((cityName) => (
-              <Button
-                key={cityName}
-                variant={city === cityName ? "default" : "outline"}
-                className={`${
-                  city === cityName
-                    ? ""
-                    : isDarkMode
-                    ? "border-gray-700"
-                    : "border-gray-300"
+        {/* Content */}
+        <div className="relative z-10 flex flex-col h-full">
+          {/* Search bar */}
+          <div className="p-4 flex items-center space-x-2">
+            <div className="relative flex-1">
+              <Input
+                type="text"
+                placeholder="Search city..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                className={`pl-10 ${
+                  isDarkMode
+                    ? "bg-gray-800 border-gray-700"
+                    : "bg-white border-gray-300"
                 }`}
-                onClick={() => setCity(cityName)}
-              >
-                {cityName}
-              </Button>
-            ))}
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            </div>
+            <Button
+              onClick={handleSearch}
+              variant={isDarkMode ? "outline" : "default"}
+              className={isDarkMode ? "border-gray-700" : ""}
+            >
+              Search
+            </Button>
+          </div>
+
+          {/* Current weather */}
+          <div className="px-6 py-4 flex flex-col md:flex-row items-center justify-between">
+            <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
+              <div className="flex items-center">
+                <MapPin className="w-5 h-5 mr-2 text-blue-500" />
+                <h2 className="text-2xl font-bold">{city}</h2>
+              </div>
+              <p className="text-gray-500 text-sm mt-1">Today</p>
+
+              <div className="flex items-center mt-4">
+                <div className="text-6xl font-light mr-4">
+                  {weather.current.temp}°
+                </div>
+                <div>
+                  <p className="text-lg">{weather.current.condition}</p>
+                  <p className="text-sm text-gray-500">
+                    Feels like {weather.current.feelsLike}°
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`${cardBg} p-4 rounded-lg border ${borderColor} grid grid-cols-2 gap-4 w-full md:w-auto`}
+            >
+              <div className="flex items-center">
+                <Droplets className="w-5 h-5 mr-2 text-blue-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Humidity</p>
+                  <p className="font-medium">{weather.current.humidity}%</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Wind className="w-5 h-5 mr-2 text-blue-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Wind</p>
+                  <p className="font-medium">
+                    {weather.current.windSpeed} km/h
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Sunrise className="w-5 h-5 mr-2 text-orange-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Sunrise</p>
+                  <p className="font-medium">{weather.current.sunrise}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Sunset className="w-5 h-5 mr-2 text-orange-500" />
+                <div>
+                  <p className="text-sm text-gray-500">Sunset</p>
+                  <p className="font-medium">{weather.current.sunset}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Forecast */}
+          <div className="px-6 mt-4">
+            <h3 className="text-lg font-medium mb-3">5-Day Forecast</h3>
+            <div
+              className={`grid grid-cols-5 gap-2 ${cardBg} rounded-lg border ${borderColor} p-4`}
+            >
+              {weather.forecast.map((day, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <p className="font-medium">{day.day}</p>
+                  <div className="my-2">{getWeatherIcon(day.condition)}</div>
+                  <p className="text-lg font-medium">{day.temp}°</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* City selector */}
+          <div className="px-6 mt-6">
+            <h3 className="text-lg font-medium mb-3">Popular Cities</h3>
+            <div className="flex flex-wrap gap-2">
+              {Object.keys(weatherData).map((cityName) => (
+                <Button
+                  key={cityName}
+                  variant={city === cityName ? "default" : "outline"}
+                  className={`${
+                    city === cityName
+                      ? ""
+                      : isDarkMode
+                      ? "border-gray-700"
+                      : "border-gray-300"
+                  }`}
+                  onClick={() => setCity(cityName)}
+                >
+                  {cityName}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

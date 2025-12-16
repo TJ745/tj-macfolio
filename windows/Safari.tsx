@@ -31,7 +31,7 @@ const Safari = () => {
         <div className="flex-1 flex items-center justify-center gap-3">
           <ShieldHalf size={16} />
 
-          <div className="flex items-center gap-3 w-2/3 bg-white border border-gray-300 rounded-lg px-3 py-2">
+          <div className="flex items-center gap-3 w-2/3  border border-gray-300 rounded-lg px-3 py-2">
             <Search size={16} />
 
             <input
@@ -49,8 +49,10 @@ const Safari = () => {
         </div>
       </div>
 
-      <div className="bg-white p-10 max-w-3xl mx-auto">
-        <h2 className="text-xl font-bold text-pink-600 mb-10">My Developer Blog</h2>
+      <div className="p-10 max-w-3xl mx-auto">
+        <h2 className="text-xl font-bold text-pink-600 mb-10">
+          My Developer Blog
+        </h2>
 
         <div className="space-y-8">
           {blogPosts.map(({ id, image, title, date, link }) => (
@@ -61,9 +63,17 @@ const Safari = () => {
 
               <div className="col-span-10 space-y-3">
                 <p className="text-xs text-gray-500">{date}</p>
-                <h3 className="font-semibold text-base text-gray-800">{title}</h3>
-                <a href={link} target="_blank" rel="noopener" className="text-blue-600 text-xs hover:underline flex items-center gap-3">
-                  Check out the full post <MoveRight className="icon-hover" size={16} />
+                <h3 className="font-semibold text-base text-gray-800">
+                  {title}
+                </h3>
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-blue-600 text-xs hover:underline flex items-center gap-3"
+                >
+                  Check out the full post{" "}
+                  <MoveRight className="icon-hover" size={16} />
                 </a>
               </div>
             </div>

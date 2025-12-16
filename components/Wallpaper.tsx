@@ -1,20 +1,10 @@
 "use client";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
-export default function Wallpaper() {
-  const { theme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+interface WallpaperProps {
+  isDark: boolean;
+}
 
-  // Avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  const isDark = (resolvedTheme ?? theme) === "dark";
-
+export default function Wallpaper({ isDark }: WallpaperProps) {
   return (
     <div
       className="absolute inset-0 bg-cover bg-center transition-all duration-500"

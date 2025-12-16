@@ -132,13 +132,12 @@ const Calculator = () => {
 
   return (
     <>
-      <div className="h-[540px] w-[540px] flex">
+      <div id="window-header">
+        <WindowControls target="calculator" />
+      </div>
+      <div className="flex h-full">
         {/* Calculator */}
         <div className="flex-1 flex flex-col bg-neutral-900 text-white rounded-b-xl">
-          <div id="window-header" className="px-3 py-2">
-            <WindowControls target="calculator" />
-          </div>
-
           <div className="px-4 py-3 text-right text-4xl truncate">
             {display}
           </div>
@@ -229,7 +228,7 @@ const Calculator = () => {
         </div>
 
         {/* History */}
-        <div className="w-56 bg-black/40 backdrop-blur-md border-l border-white/10 p-3 text-sm overflow-y-auto">
+        <div className="w-56 bg-black/40 border-l border-white/10 p-3 text-sm overflow-y-auto text-white">
           <p className="text-white/60 mb-2">History</p>
           {history.length === 0 && (
             <p className="text-white/30">No calculations</p>

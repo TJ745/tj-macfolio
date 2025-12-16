@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import WindowControls from "@/components/WindowControls";
 import WindowWrapper from "@/components/WindowWrapper";
 import { ChevronLeft, ChevronRight, Plus, Trash } from "lucide-react";
-import { useTheme } from "next-themes";
 
 type CalendarEvent = {
   id: string;
@@ -25,24 +24,27 @@ const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-const Calendar = () => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-
+const Calendar = ({ isDark }: { isDark: boolean }) => {
   const today = new Date();
   const [current, setCurrent] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  // const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [newTitle, setNewTitle] = useState("");
   const [color, setColor] = useState(colors[0]);
+
+  const [events, setEvents] = useState<CalendarEvent[]>(() => {
+    if (typeof window === "undefined") return [];
+    const stored = localStorage.getItem("calendar-events");
+    return stored ? JSON.parse(stored) : [];
+  });
 
   /* ---------------- STORAGE ---------------- */
   useEffect(() => {
     const stored = localStorage.getItem("calendar-events");
-    if (stored) setEvents(JSON.parse(stored));
+    if (stored) setTimeout(() => setEvents(JSON.parse(stored)), 0);
   }, []);
 
   useEffect(() => {
@@ -88,10 +90,7 @@ const Calendar = () => {
   return (
     <>
       {/* HEADER */}
-      <div
-        id="window-header"
-        className="flex items-center justify-between px-3 py-2 border-b border-black/10 dark:border-white/10"
-      >
+      <div id="window-header">
         <WindowControls target="calendar" />
 
         <div className="flex items-center gap-2 text-sm font-medium">
@@ -117,7 +116,7 @@ const Calendar = () => {
       {/* BODY */}
       <div
         className={`flex h-full ${
-          isDark ? "bg-neutral-900 text-white" : "bg-white text-black"
+          isDark ? "bg-neutral-900 text-white" : " text-black"
         }`}
       >
         {/* MONTH GRID */}

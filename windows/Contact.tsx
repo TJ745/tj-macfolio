@@ -1,6 +1,7 @@
 import WindowControls from "@/components/WindowControls";
 import WindowWrapper from "@/components/WindowWrapper";
 import { socials } from "@/constants";
+import Image from "next/image";
 import React from "react";
 
 const Contact = () => {
@@ -12,7 +13,13 @@ const Contact = () => {
       </div>
 
       <div className="p-5 space-y-5">
-        <img src="/images/adrian.jpg" alt="TJ" className="w-20 rounded-full" />
+        <Image
+          src="/images/adrian.jpg"
+          alt="TJ"
+          className="w-20 rounded-full"
+          height={100}
+          width={100}
+        />
         <h3 className="text-xl font-semibold">Let&apos;s Connect</h3>
         <p>
           Got an idea? A bug to squash? Or just wanna talk tech? I&apos;m in.
@@ -33,7 +40,13 @@ const Contact = () => {
                 title={text}
                 className="space-y-5"
               >
-                <img src={icon} alt={text} className="size-5" />
+                <Image
+                  src={icon}
+                  alt={text}
+                  className="size-5"
+                  height={100}
+                  width={100}
+                />
                 <p className="font-semibold text-sm text-white">{text}</p>
               </a>
             </li>

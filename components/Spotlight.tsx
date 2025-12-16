@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import useWindowStore from "@/store/window";
 import { dockApps } from "@/constants";
 
@@ -12,16 +12,28 @@ interface SpotlightProps {
 
 export default function Spotlight({ onClose }: SpotlightProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApps, setFilteredApps] = useState(dockApps);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { openWindow, windows } = useWindowStore();
+  const { openWindow } = useWindowStore();
 
-  const handleAppClick = (app: (typeof dockApps)[0]) => {
-    openWindow(app.id as keyof typeof windows);
-    onClose();
-  };
+  const filteredApps = useMemo(() => {
+    if (!searchTerm) return dockApps;
+    return dockApps.filter((app) =>
+      app.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const handleAppClick = useCallback(
+    (app: (typeof dockApps)[0]) => {
+      const windowId = app.id as keyof ReturnType<
+        typeof useWindowStore.getState
+      >["windows"];
+      openWindow(windowId);
+      onClose();
+    },
+    [openWindow, onClose]
+  );
 
   useEffect(() => {
     // Focus the input when spotlight opens
@@ -47,19 +59,11 @@ export default function Spotlight({ onClose }: SpotlightProps) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [filteredApps, selectedIndex, handleAppClick]);
+  }, [filteredApps, selectedIndex, handleAppClick, onClose]);
 
   useEffect(() => {
-    if (searchTerm) {
-      const filtered = dockApps.filter((app) =>
-        app.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredApps(filtered);
-      setSelectedIndex(0); // Reset selection when search changes
-    } else {
-      setFilteredApps(dockApps);
-    }
-  }, [searchTerm]);
+    requestAnimationFrame(() => setSelectedIndex(0));
+  }, [filteredApps]);
 
   return (
     <div

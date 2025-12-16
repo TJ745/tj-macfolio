@@ -5,16 +5,17 @@ import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import React, { useLayoutEffect, useRef } from "react";
 
-interface WindowWrapperProps {
-  windowKey: keyof typeof import("@/constants").WINDOW_CONFIG;
-}
+type WindowKey = keyof typeof import("@/constants").WINDOW_CONFIG;
 
-const WindowWrapper = (Component: any, windowKey: string) => {
-  const Wrapped = (props: any) => {
+const WindowWrapper = <P extends object>(
+  Component: React.ComponentType<P>,
+  windowKey: WindowKey
+) => {
+  const Wrapped: React.FC<P> = (props) => {
     const { focusWindow, windows } = useWindowStore();
     const win = windows[windowKey as keyof typeof windows];
     const { isOpen, isMaximized, zIndex } = win;
-    const ref = useRef(null);
+    const ref = useRef<HTMLElement>(null);
 
     useGSAP(() => {
       const el = ref.current;
@@ -45,13 +46,6 @@ const WindowWrapper = (Component: any, windowKey: string) => {
       return () => instances.forEach((inst) => inst.kill());
     }, []);
 
-    // useLayoutEffect(() => {
-    //   const el = ref.current;
-    //   if (!el) return;
-
-    //   el.style.display = isOpen ? "block" : "none";
-    // }, [isOpen]);
-
     useLayoutEffect(() => {
       const el = ref.current;
       if (!el) return;
@@ -76,7 +70,12 @@ const WindowWrapper = (Component: any, windowKey: string) => {
     }, [isOpen, isMaximized]);
 
     return (
-      <section id={windowKey} ref={ref} style={{ zIndex }} className="absolute">
+      <section
+        id={windowKey}
+        ref={ref}
+        style={{ zIndex }}
+        className="absolute bg-[#EBEBEB] dark:bg-[#323232]"
+      >
         <Component {...props} />
       </section>
     );

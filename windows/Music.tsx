@@ -26,19 +26,19 @@ const Music = () => {
     {
       title: "Chill Lofi Beat",
       artist: "LoFi Artist",
-      cover: "/placeholder.svg?height=300&width=300&query=album cover lofi",
-      file: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3",
+      cover: "/images/cozy-corner-beats.png",
+      file: "/images/lofi-study-112191.mp3",
     },
     {
       title: "Jazz Vibes",
       artist: "Jazz Artist",
-      cover: "/placeholder.svg?height=300&width=300&query=album cover jazz",
+      cover: "/images/cool-blue-jazz.png",
       file: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_946f4a8c41.mp3?filename=jazz-music-7174.mp3",
     },
     {
       title: "Ambient Sounds",
       artist: "Ambient Artist",
-      cover: "/placeholder.svg?height=300&width=300&query=album cover ambient",
+      cover: "/images/grand-piano-keys.png",
       file: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b8c567b7.mp3?filename=ambient-piano-ampamp-strings-10711.mp3",
     },
   ];
@@ -128,11 +128,9 @@ const Music = () => {
     <>
       <div id="window-header">
         <WindowControls target="music" />
-        {/* <Search size={16} /> */}
+        <h2 className="text-xl font-bold">Music Player</h2>
       </div>
       <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">Music Player</h2>
-
         <div className="flex flex-col items-center">
           <div className="w-64 h-64 rounded-lg overflow-hidden mb-6">
             <Image

@@ -26,7 +26,11 @@ export default function Launchpad({ onClose }: LaunchpadProps) {
 
   useEffect(() => {
     // Animation effect
-    setIsVisible(true);
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 0); // defers state update to next tick
+
+    return () => clearTimeout(timer);
 
     if (searchTerm) {
       setFilteredApps(

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Search, Wifi, WifiOff } from "lucide-react";
 import { AppleIcon } from "./AppleIcon";
-import { useTheme } from "next-themes";
 
 interface BatteryManager {
   level: number;
@@ -21,6 +20,7 @@ interface NavbarProps {
   onSpotlightClick: () => void;
   onControlCenterClick: () => void;
   activeWindow: { id: string; title: string } | null;
+  isDark: boolean;
 }
 
 const Navbar = ({
@@ -31,10 +31,8 @@ const Navbar = ({
   onSpotlightClick,
   onControlCenterClick,
   activeWindow,
+  isDark,
 }: NavbarProps) => {
-  const { theme, resolvedTheme } = useTheme();
-  const isDarkMode = (resolvedTheme ?? theme) === "dark";
-
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [batteryLevel, setBatteryLevel] = useState(100);
   const [isCharging, setIsCharging] = useState(false);
@@ -127,11 +125,9 @@ const Navbar = ({
     <div
       ref={menuRef}
       className={`fixed top-0 left-0 right-0 h-10 z-1400 ${
-        isDarkMode
-          ? "bg-black/10 backdrop-blur-md"
-          : "bg-white/10 backdrop-blur-md"
+        isDark ? "bg-black/10 backdrop-blur-md" : "bg-white/10 backdrop-blur-md"
       } z-50 flex items-center px-5 p-2 ${
-        isDarkMode ? "text-white" : "text-gray-800"
+        isDark ? "text-white" : "text-gray-800"
       }`}
     >
       <div className="flex-1 flex items-center gap-3">
@@ -145,16 +141,16 @@ const Navbar = ({
         {activeMenu === "apple" && (
           <div
             className={`absolute top-10 left-2 ${
-              isDarkMode
+              isDark
                 ? "bg-gray-800/90 backdrop-blur-md"
                 : "bg-gray-300/90 backdrop-blur-md"
             } rounded-lg shadow-xl ${
-              isDarkMode ? "text-white" : "text-gray-800"
+              isDark ? "text-white" : "text-gray-800"
             } py-1 w-56`}
           >
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
             >
               About This Mac
@@ -162,14 +158,14 @@ const Navbar = ({
             <div className="border-t border-gray-700 my-1"></div>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
             >
               System Settings...
             </button>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
             >
               App Store...
@@ -177,7 +173,7 @@ const Navbar = ({
             <div className="border-t border-gray-700 my-1"></div>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
               onClick={onSleep}
             >
@@ -185,7 +181,7 @@ const Navbar = ({
             </button>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
               onClick={onRestart}
             >
@@ -193,7 +189,7 @@ const Navbar = ({
             </button>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
               onClick={onShutdown}
             >
@@ -202,7 +198,7 @@ const Navbar = ({
             <div className="border-t border-gray-700 my-1"></div>
             <button
               className={`w-full text-left px-4 py-1 ${
-                isDarkMode ? "hover:bg-blue-600" : "hover:bg-blue-400"
+                isDark ? "hover:bg-blue-600" : "hover:bg-blue-400"
               }`}
               onClick={onLogout}
             >
@@ -230,7 +226,7 @@ const Navbar = ({
         <div className="relative">
           <div className="w-6 h-3 border border-current rounded-sm relative">
             <div
-              className="absolute top-0 left-0 bottom-0 bg-current"
+              className="absolute top-0 left-0 bottom-0 bg-current rounded"
               style={{ width: `${batteryLevel}%` }}
             ></div>
             <div className="absolute -right-1 top-1/2 transform -translate-y-1/2 w-1 h-2 bg-current rounded-r-sm"></div>
@@ -255,11 +251,11 @@ const Navbar = ({
             <div
               ref={wifiRef}
               className={`absolute top-8 right-0 ${
-                isDarkMode
+                isDark
                   ? "bg-gray-800/90 backdrop-blur-md"
                   : "bg-gray-300/90 backdrop-blur-md"
               } rounded-lg shadow-xl ${
-                isDarkMode ? "text-white" : "text-gray-800"
+                isDark ? "text-white" : "text-gray-800"
               } py-3 px-4 w-64`}
             >
               <div className="flex items-center justify-between">
@@ -291,7 +287,7 @@ const Navbar = ({
             alt="Control Center"
             className="w-5 h-5"
             style={{
-              filter: isDarkMode ? "invert(1)" : "none",
+              filter: isDark ? "invert(1)" : "none",
               opacity: 0.9,
             }}
             width={5}

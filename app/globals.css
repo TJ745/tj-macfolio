@@ -126,27 +126,63 @@
 
 @layer components {
   #window-header {
-    @apply flex items-center justify-between px-4 py-3 rounded-t-lg bg-gray-50 border-b border-gray-200 select-none text-sm text-gray-400 cursor-default;
+    @apply flex items-center justify-between px-4 py-3 rounded-t-lg border-b border-gray-200 select-none text-sm text-gray-400 cursor-default;
   }
 
   #safari {
-    @apply w-4xl absolute top-40 left-2/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-4xl absolute top-40 left-2/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #terminal {
-    @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #calculator {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #calendar {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #snake {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #settings {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #weather {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #spotify {
+    @apply w-xl h-[85%] absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #music {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #facetime {
+    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+  }
+
+  #notes {
+    @apply w-4xl h-[80%] absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #contact {
-    @apply max-w-2xl absolute top-60 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply max-w-2xl absolute top-60 left-5/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #photos {
-    @apply max-w-3xl absolute top-96 left-1/2 -translate-y-1/2 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-3xl absolute top-26 left-1/2 -translate-y-1/2  shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #resume {
-    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-fit h-[80%] absolute top-16 left-7/12  shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #finder {
@@ -154,11 +190,11 @@
   }
 
   #txtfile {
-    @apply w-md absolute top-36 right-32 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-md absolute top-36 right-32 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden h-[80%];
   }
 
   #imgfile {
-    @apply w-xl absolute top-40 left-2/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-xl absolute top-40 left-2/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
 }

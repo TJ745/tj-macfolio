@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import WindowControls from "@/components/WindowControls";
 
 const Spotify = () => {
   const { resolvedTheme, setTheme } = useTheme();
@@ -226,12 +227,17 @@ const Spotify = () => {
   };
   return (
     <>
-      <div className={`h-full ${bgColor} ${textColor} flex flex-col`}>
+      <div id="window-header">
+        <WindowControls target="spotify" />
+      </div>
+      <div
+        className={`h-full ${bgColor} ${textColor} flex flex-col overflow-y-scroll`}
+      >
         {/* Header */}
         <div className={`${secondaryBg} p-4 flex items-center justify-between`}>
           <div className="flex items-center">
             <Image
-              src="/spotify.png"
+              src="/images/spotify.png"
               alt="Spotify"
               className="w-8 h-8 mr-3"
               height={32}

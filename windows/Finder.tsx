@@ -63,13 +63,13 @@ const Finder = () => {
         <Search size={16} />
       </div>
 
-      <div className="bg-white flex h-full">
-        <div className="w-48 bg-gray-50 border-r border-gray-200 flex flex-col p-5 space-y-3">
+      <div className=" flex h-full">
+        <div className="w-48 border-r border-gray-200 dark:border-gray-600 flex flex-col p-5 space-y-3">
           {renderList("Favourites", Object.values(locations))}
           {renderList("Work", locations.work.children)}
         </div>
 
-        <ul className="flex-1 p-8 bg-white max-w-2xl relative">
+        <ul className="flex-1 p-8 max-w-2xl relative">
           {activeLocation?.children?.map((item: FileItem | FolderItem) => (
             <li
               key={item.id}

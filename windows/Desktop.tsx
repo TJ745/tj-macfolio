@@ -25,6 +25,8 @@ import Weather from "./Weather";
 import Notes from "./Notes";
 import Calculator from "./Calculator";
 import Calendar from "./Calendar";
+import Snake from "./Snake";
+import Settings from "./Settings";
 
 import Text from "./Text";
 import ImageWin from "./ImageWin";
@@ -33,9 +35,6 @@ import Resume from "./Resume";
 import Launchpad from "@/components/Launchpad";
 
 import useWindowStore, { WindowKey } from "@/store/window";
-import { useTheme } from "next-themes";
-import Snake from "./Snake";
-import Settings from "./Settings";
 
 interface DesktopProps {
   onLogout: () => void;
@@ -44,6 +43,8 @@ interface DesktopProps {
   onRestart: () => void;
   initialBrightness: number;
   onBrightnessChange: (value: number) => void;
+  isDark: boolean;
+  onToggleTheme: () => void;
 }
 
 export default function Desktop({
@@ -53,24 +54,15 @@ export default function Desktop({
   onRestart,
   initialBrightness,
   onBrightnessChange,
+  isDark,
+  onToggleTheme,
 }: DesktopProps) {
-  const { resolvedTheme, setTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-
-  const [time, setTime] = useState(new Date());
   const [screenBrightness, setScreenBrightness] = useState(initialBrightness);
   const [showControlCenter, setShowControlCenter] = useState(false);
   const [showSpotlight, setShowSpotlight] = useState(false);
 
   const desktopRef = useRef<HTMLDivElement>(null);
   const { windows } = useWindowStore();
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     setScreenBrightness(initialBrightness);
@@ -99,7 +91,7 @@ export default function Desktop({
   };
 
   const activeWindowEntry = Object.entries(windows)
-    .filter(([_, win]) => win.isOpen)
+    .filter(([, win]) => win.isOpen)
     .sort((a, b) => b[1].zIndex - a[1].zIndex)[0]; // top-most window
 
   const activeWindow = activeWindowEntry
@@ -116,7 +108,7 @@ export default function Desktop({
         className={`relative h-screen w-screen overflow-hidden`}
         onClick={handleDesktopClick}
       >
-        <Wallpaper />
+        <Wallpaper isDark={isDark} />
         <HomePage />
         <Welcome />
 
@@ -128,6 +120,7 @@ export default function Desktop({
           onSpotlightClick={toggleSpotlight}
           onControlCenterClick={toggleControlCenter}
           activeWindow={activeWindow}
+          isDark={isDark}
         />
 
         {/* Control Center */}
@@ -136,6 +129,8 @@ export default function Desktop({
             onClose={() => setShowControlCenter(false)}
             brightness={screenBrightness}
             onBrightnessChange={updateBrightness}
+            isDark={isDark}
+            onToggleTheme={onToggleTheme}
           />
         )}
 
@@ -183,7 +178,7 @@ export default function Desktop({
             case "spotify":
               return <Spotify key={key} style={style} />;
             case "notes":
-              return <Notes key={key} style={style} />;
+              return <Notes key={key} style={style} isDark={isDark} />;
             case "weather":
               return <Weather key={key} style={style} />;
             case "snake":
@@ -193,7 +188,7 @@ export default function Desktop({
             case "calculator":
               return <Calculator key={key} style={style} />;
             case "calendar":
-              return <Calendar key={key} style={style} />;
+              return <Calendar key={key} style={style} isDark={isDark} />;
             default:
               return null;
           }

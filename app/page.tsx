@@ -9,6 +9,10 @@ import Desktop from "@/windows/Desktop";
 import SleepScreen from "@/components/SleepScreen";
 import ShutdownScreen from "@/components/ShutdownScreen";
 
+import gsap from "gsap";
+import { Draggable } from "gsap/Draggable";
+gsap.registerPlugin(Draggable);
+
 type SystemState =
   | "booting"
   | "login"
@@ -17,12 +21,9 @@ type SystemState =
   | "shutdown"
   | "restarting";
 
-import gsap from "gsap";
-import { Draggable } from "gsap/Draggable";
-gsap.registerPlugin(Draggable);
-
 export default function Home() {
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted] = useState(() => typeof window !== "undefined");
   const [systemState, setSystemState] = useState<SystemState>("booting");
 
   const [screenBrightness, setScreenBrightness] = useState<number>(() => {
@@ -42,6 +43,8 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [systemState]);
+
+  if (!mounted) return null;
 
   const handleLogin = () => {
     setSystemState("desktop");
@@ -71,8 +74,8 @@ export default function Home() {
     setSystemState("restarting");
   };
 
-  const toggleDarkMode = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   const updateBrightness = (value: number) => {
@@ -97,6 +100,8 @@ export default function Home() {
             onSleep={handleSleep}
             onShutdown={handleShutdown}
             onRestart={handleRestart}
+            isDark={resolvedTheme === "dark"}
+            onToggleTheme={toggleTheme} // optional
             initialBrightness={screenBrightness}
             onBrightnessChange={updateBrightness}
           />
@@ -114,7 +119,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${resolvedTheme === "dark" ? "dark" : ""}`}>
       {renderScreen()}
 
       {/* Brightness overlay - apply to all screens */}

@@ -14,14 +14,10 @@ type DockApp = {
   canOpen?: boolean;
 };
 
-interface DockProps {
-  isDarkMode?: boolean;
-}
-
-const Dock: React.FC<DockProps> = () => {
-  const { openWindow, closeWindow, windows, maximizeWindow, restoreWindow } =
+const Dock: React.FC = () => {
+  const { openWindow, windows, maximizeWindow, restoreWindow } =
     useWindowStore();
-  const dockRef = useRef(null);
+  const dockRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     const dock = dockRef.current;
@@ -80,11 +76,6 @@ const Dock: React.FC<DockProps> = () => {
       return;
     }
 
-    // if (win.isOpen) {
-    //   closeWindow(app.id);
-    // } else {
-    //   openWindow(app.id);
-    // }
     if (win.isOpen && !win.isMinimized && !win.isMaximized) {
       // maximize window on click if open
       maximizeWindow(app.id);

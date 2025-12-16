@@ -3,10 +3,9 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import { User, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import { useTheme } from "next-themes";
 
 interface LoginScreenProps {
@@ -74,15 +73,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         <div className="w-24 h-24 rounded-full bg-slate-800 flex items-center justify-center mb-4">
           <span className="text-white text-5xl font-bold">TJ</span>
         </div>
-        {/* <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center mb-4">
-          <Image
-            src="/letter-d.png"
-            alt="User avatar"
-            width={96}
-            height={96}
-            className="object-cover w-full h-full"
-          />
-        </div> */}
+
         <h2 className="text-white text-2xl font-medium mb-6">Talha Jamil</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col items-center">

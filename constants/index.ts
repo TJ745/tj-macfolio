@@ -20,14 +20,14 @@ const dockApps: {
   },
   {
     id: "safari",
-    name: "Articles", // was "Safari"
+    name: "Safari", // was "Safari"
     icon: "safari.png",
     canOpen: true,
   },
   {
     id: "facetime",
     name: "FaceTime", // was "Safari"
-    icon: "facetime.png",
+    icon: "facetime.webp",
     canOpen: true,
   },
   {
@@ -51,13 +51,13 @@ const dockApps: {
   {
     id: "weather",
     name: "Weather",
-    icon: "weather.png",
+    icon: "weather.webp",
     canOpen: true,
   },
   {
     id: "notes",
     name: "Notes",
-    icon: "notes.png",
+    icon: "notes.webp",
     canOpen: true,
   },
   {
@@ -81,19 +81,19 @@ const dockApps: {
   {
     id: "contact",
     name: "Contact", // or "Get in touch"
-    icon: "contact.png",
+    icon: "contacts.webp",
     canOpen: true,
   },
   {
     id: "terminal",
-    name: "Skills", // was "Terminal"
+    name: "Terminal", // was "Terminal"
     icon: "terminal.png",
     canOpen: true,
   },
   {
     id: "settings",
     name: "Settings", // was "Terminal"
-    icon: "setting.png",
+    icon: "settings.webp",
     canOpen: true,
   },
   {
@@ -514,7 +514,6 @@ export const locations = {
 
 const INITIAL_Z_INDEX = 1000;
 const LAUNCHPAD_Z_INDEX = 1500;    // launchpad
-const NAVBAR_Z_INDEX = 2000;       // navbar always on top
 
 const WINDOW_CONFIG = {
   launchpad: {

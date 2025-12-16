@@ -1,11 +1,19 @@
 import WindowControls from "@/components/WindowControls";
 import WindowWrapper from "@/components/WindowWrapper";
 import useWindowStore from "@/store/window";
+import Image from "next/image";
 import React from "react";
+
+interface TxtFileData {
+  name: string;
+  image?: string;
+  subtitle?: string;
+  description?: string[];
+}
 
 const Text = () => {
   const { windows } = useWindowStore();
-  const data = windows.txtfile?.data;
+  const data = windows.txtfile?.data as TxtFileData | undefined;
   if (!data) return null;
 
   const { name, image, subtitle, description } = data;
@@ -17,10 +25,16 @@ const Text = () => {
         <h2 className="font-bold text-sm text-center w-full">{name}</h2>
       </div>
 
-      <div className="p-5 space-y-6 bg-white">
+      <div className="p-5 h-full pb-16 overflow-y-scroll space-y-6">
         {image ? (
           <div className="w-full">
-            <img src={image} alt={name} className="w-full h-auto rounded" />
+            <Image
+              src={image}
+              alt={name}
+              className="w-full h-auto rounded"
+              height={1000}
+              width={1000}
+            />
           </div>
         ) : null}
 
@@ -29,7 +43,7 @@ const Text = () => {
         ) : null}
 
         {Array.isArray(description) && description.length > 0 ? (
-          <div className="space-y-3 leading-relaxed text-base text-gray-800">
+          <div className="space-y-3 leading-relaxed text-base text-gray-800 dark:text-gray-200">
             {description.map((para, index) => (
               <p key={index}>{para}</p>
             ))}

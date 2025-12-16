@@ -10,40 +10,36 @@ import {
   VolumeX,
   Maximize,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 
 interface ControlCenterProps {
   onClose: () => void;
   brightness: number;
   onBrightnessChange: (value: number) => void;
+  isDark: boolean;
+  onToggleTheme: () => void;
 }
 
 export default function ControlCenter({
   onClose,
   brightness,
   onBrightnessChange,
+  isDark,
+  onToggleTheme,
 }: ControlCenterProps) {
-  const { resolvedTheme, setTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-
-  const [wifiEnabled, setWifiEnabled] = useState(true);
+  const [wifiEnabled, setWifiEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("wifiEnabled") === "true";
+  });
   const [bluetoothEnabled, setBluetoothEnabled] = useState(true);
   const [volume, setVolume] = useState(75);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(() => {
+    if (typeof document === "undefined") return false;
+    return !!document.fullscreenElement;
+  });
 
   const ref = useRef<HTMLDivElement>(null);
 
-  // Load WiFi state from localStorage
   useEffect(() => {
-    const savedWifi = localStorage.getItem("wifiEnabled");
-    if (savedWifi !== null) {
-      setWifiEnabled(savedWifi === "true");
-    }
-
-    // Check if we're in fullscreen mode
-    setIsFullscreen(!!document.fullscreenElement);
-
-    // Add fullscreen change event listener
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
@@ -68,14 +64,12 @@ export default function ControlCenter({
     };
   }, [onClose]);
 
-  // Update the Control Center to store WiFi state in localStorage
   const toggleWifi = () => {
     const newState = !wifiEnabled;
     setWifiEnabled(newState);
     localStorage.setItem("wifiEnabled", newState.toString());
   };
 
-  // Toggle fullscreen mode
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch((err) => {
@@ -88,10 +82,6 @@ export default function ControlCenter({
     }
   };
 
-  const toggleTheme = () => {
-    setTheme(isDark ? "light" : "dark");
-  };
-
   return (
     <div
       ref={ref}
@@ -101,7 +91,7 @@ export default function ControlCenter({
       <div className="p-4">
         <div className="grid grid-cols-4 gap-3 mb-4">
           <button
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${
+            className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer ${
               wifiEnabled ? "bg-blue-500" : "bg-gray-700"
             }`}
             onClick={toggleWifi}
@@ -111,7 +101,7 @@ export default function ControlCenter({
           </button>
 
           <button
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${
+            className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer ${
               bluetoothEnabled ? "bg-blue-500" : "bg-gray-700"
             }`}
             onClick={() => setBluetoothEnabled(!bluetoothEnabled)}
@@ -121,10 +111,10 @@ export default function ControlCenter({
           </button>
 
           <button
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${
+            className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer ${
               isDark ? "bg-blue-500" : "bg-gray-700"
             }`}
-            onClick={toggleTheme}
+            onClick={onToggleTheme}
           >
             {isDark ? (
               <Moon className="w-6 h-6 text-white mb-1" />
@@ -137,7 +127,7 @@ export default function ControlCenter({
           </button>
 
           <button
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${
+            className={`flex flex-col items-center justify-center p-3 rounded-xl cursor-pointer ${
               isFullscreen ? "bg-blue-500" : "bg-gray-700"
             }`}
             onClick={toggleFullscreen}

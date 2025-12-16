@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WindowWrapper from "@/components/WindowWrapper";
+import WindowControls from "@/components/WindowControls";
 
 type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
 type Position = { x: number; y: number };
@@ -296,104 +297,105 @@ const Snake = () => {
   };
 
   return (
-    <div
-      className={`h-full flex flex-col ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-      } p-4`}
-    >
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Snake Game</h2>
-        <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsPaused(!isPaused)}
-            disabled={gameOver}
-            className={isDarkMode ? "border-gray-700" : ""}
-          >
-            {isPaused ? (
-              <Play className="w-4 h-4 mr-1" />
-            ) : (
-              <Pause className="w-4 h-4 mr-1" />
-            )}
-            {isPaused ? "Play" : "Pause"}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={resetGame}
-            className={isDarkMode ? "border-gray-700" : ""}
-          >
-            <RotateCcw className="w-4 h-4 mr-1" />
-            Restart
-          </Button>
-        </div>
+    <>
+      <div id="window-header">
+        <WindowControls target="snake" />
+        <h2 className="text-lg font-bold">Snake</h2>
       </div>
+      <div className={`h-full flex flex-col p-4`}>
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsPaused(!isPaused)}
+              disabled={gameOver}
+              className={isDarkMode ? "border-gray-700" : ""}
+            >
+              {isPaused ? (
+                <Play className="w-4 h-4 mr-1" />
+              ) : (
+                <Pause className="w-4 h-4 mr-1" />
+              )}
+              {isPaused ? "Play" : "Pause"}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetGame}
+              className={isDarkMode ? "border-gray-700" : ""}
+            >
+              <RotateCcw className="w-4 h-4 mr-1" />
+              Restart
+            </Button>
+          </div>
+        </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <canvas
-          ref={canvasRef}
-          width={GRID_SIZE * CELL_SIZE}
-          height={GRID_SIZE * CELL_SIZE}
-          className="border border-gray-600 rounded-md shadow-lg"
-        />
-      </div>
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <canvas
+            ref={canvasRef}
+            width={GRID_SIZE * CELL_SIZE}
+            height={GRID_SIZE * CELL_SIZE}
+            className="border border-gray-600 rounded-md shadow-lg"
+          />
+        </div>
 
-      {/* Mobile controls */}
-      <div className="mt-4 grid grid-cols-3 gap-2 max-w-[200px] mx-auto">
-        <div className="col-start-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full aspect-square"
-            onClick={() => handleDirectionClick("UP")}
-            disabled={gameOver}
-          >
-            <ChevronUp className="w-5 h-5" />
-          </Button>
+        {/* Mobile controls */}
+        <div className="mt-4 grid grid-cols-3 gap-2 max-w-[200px] mx-auto">
+          <div className="col-start-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full aspect-square"
+              onClick={() => handleDirectionClick("UP")}
+              disabled={gameOver}
+            >
+              <ChevronUp className="w-5 h-5" />
+            </Button>
+          </div>
+          <div className="col-start-1 row-start-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full aspect-square"
+              onClick={() => handleDirectionClick("LEFT")}
+              disabled={gameOver}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+          </div>
+          <div className="col-start-3 row-start-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full aspect-square"
+              onClick={() => handleDirectionClick("RIGHT")}
+              disabled={gameOver}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </Button>
+          </div>
+          <div className="col-start-2 row-start-2">
+            <div className="w-full aspect-square"></div>
+          </div>
+          <div className="col-start-2 row-start-3">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full aspect-square"
+              onClick={() => handleDirectionClick("DOWN")}
+              disabled={gameOver}
+            >
+              <ChevronDown className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
-        <div className="col-start-1 row-start-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full aspect-square"
-            onClick={() => handleDirectionClick("LEFT")}
-            disabled={gameOver}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-        </div>
-        <div className="col-start-3 row-start-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full aspect-square"
-            onClick={() => handleDirectionClick("RIGHT")}
-            disabled={gameOver}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
-        </div>
-        <div className="col-start-2 row-start-2">
-          <div className="w-full aspect-square"></div>
-        </div>
-        <div className="col-start-2 row-start-3">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full aspect-square"
-            onClick={() => handleDirectionClick("DOWN")}
-            disabled={gameOver}
-          >
-            <ChevronDown className="w-5 h-5" />
-          </Button>
-        </div>
-      </div>
 
-      <div className="mt-4 text-center text-sm">
-        <p>Use arrow keys to move, space to pause/resume</p>
+        <div className="mt-4 text-center text-sm">
+          <p>Use arrow keys to move, space to pause/resume</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
