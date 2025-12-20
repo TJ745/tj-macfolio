@@ -134,7 +134,7 @@
   }
 
   #terminal {
-    @apply w-xl absolute top-32 left-1/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-xl absolute top-32 left-2/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #calculator {
@@ -178,7 +178,7 @@
   }
 
   #photos {
-    @apply w-3xl absolute top-26 left-1/2 -translate-y-1/2  shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-3xl absolute top-26 left-1/2  shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
   #resume {

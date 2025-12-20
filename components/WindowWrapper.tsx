@@ -74,7 +74,7 @@ const WindowWrapper = <P extends object>(
         id={windowKey}
         ref={ref}
         style={{ zIndex }}
-        className="absolute bg-[#EBEBEB] dark:bg-[#323232]"
+        className="absolute bg-[#F6F6F6] dark:bg-[#282828]"
       >
         <Component {...props} />
       </section>

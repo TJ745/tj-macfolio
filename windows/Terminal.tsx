@@ -31,7 +31,7 @@ const Terminal = () => {
               <h3 className="font-semibold text-[#00A154] w-32 ms-5">
                 {category}
               </h3>
-              <ul className="flex items-center gap-3">
+              <ul className="flex flex-1 items-center flex-wrap">
                 {items.map((item, index) => (
                   <li key={index}>
                     {item}
@@ -44,12 +44,14 @@ const Terminal = () => {
         </ul>
 
         <div className="text-[#00A154] space-y-1">
-          <p className="flex items-center">
-            <Check size={20} /> 5 of 5 stacks loaded successfully (100%)
+          <p className="flex items-center gap-5">
+            <Check size={20} />
+            {""} 5 of 5 stacks loaded successfully (100%)
           </p>
 
-          <p className="text-black flex items-center">
+          <p className="text-black dark:text-white flex items-center gap-5">
             <Flag size={20} fill="black" />
+            {""}
             Render time: 6ms
           </p>
         </div>

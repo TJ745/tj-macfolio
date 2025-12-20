@@ -3,6 +3,7 @@
 import WindowControls from "@/components/WindowControls";
 import WindowWrapper from "@/components/WindowWrapper";
 import { Download } from "lucide-react";
+import Link from "next/link";
 
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -18,14 +19,14 @@ const Resume = () => {
         <WindowControls target="resume" />
         <h2 className="font-bold text-sm text-center flex-1">Resume.pdf</h2>
 
-        <a
+        <Link
           href="files/resume.pdf"
           download
           className="cursor-pointer"
           title="Download Resume"
         >
           <Download size={16} />
-        </a>
+        </Link>
       </div>
 
       <Document file="files/resume.pdf" className={`h-full overflow-y-scroll`}>

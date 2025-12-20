@@ -102,7 +102,6 @@ const dockApps: {
     icon: "trash.png",
     canOpen: false,
   },
-  
 ];
 
 const blogPosts = [
@@ -133,23 +132,19 @@ const blogPosts = [
 const techStack = [
   {
     category: "Frontend",
-    items: ["React.js", "Next.js", "TypeScript"],
+    items: ["React.js", "Next.js", "TypeScript","Tailwind CSS","Shadcn UI", "Framer Motion", "GSAP"],
   },
   {
     category: "Mobile",
     items: ["React Native", "Expo"],
   },
   {
-    category: "Styling",
-    items: ["Tailwind CSS", "Sass", "CSS"],
-  },
-  {
     category: "Backend",
-    items: ["Node.js", "Express", "NestJS", "Hono"],
+    items: ["Node.js", "Express", "RESTful APIs", "Server-Actions"],
   },
   {
     category: "Database",
-    items: ["MongoDB", "PostgreSQL"],
+    items: ["MongoDB","MySQL", "PostgreSQL"],
   },
   {
     category: "Dev Tools",
@@ -163,29 +158,30 @@ const socials = [
     text: "Github",
     icon: "/icons/github.svg",
     bg: "#f4656b",
-    link: "https://github.com/JavaScript-Mastery-Pro",
+    link: "https://github.com/TJ745",
   },
   {
     id: 2,
-    text: "Platform",
-    icon: "/icons/atom.svg",
-    bg: "#4bcb63",
-    link: "https://jsmastery.com/",
-  },
-  {
-    id: 3,
-    text: "Twitter/X",
-    icon: "/icons/twitter.svg",
-    bg: "#ff866b",
-    link: "https://x.com/jsmasterypro",
-  },
-  {
-    id: 4,
     text: "LinkedIn",
     icon: "/icons/linkedin.svg",
     bg: "#05b6f6",
-    link: "https://www.linkedin.com/company/javascriptmastery/posts/?feedView=all",
+    link: "https://linkedin.com/in/talha-jamil-937b3b32",
   },
+  {
+    id: 3,
+    text: "Instagram",
+    icon: "/icons/atom.svg",
+    bg: "#4bcb63",
+    link: "https://instagram.com/t_e_e.j_a_y",
+  },
+  {
+    id: 4,
+    text: "Twitter/X",
+    icon: "/icons/twitter.svg",
+    bg: "#ff866b",
+    link: "https://x.com/t_e_e_j_a_y",
+  },
+  
 ];
 
 const photosLinks = [
@@ -449,10 +445,13 @@ const ABOUT_LOCATION = {
       subtitle: "Meet the Developer Behind the Code",
       image: "/images/adrian.jpg",
       description: [
-        "Hey! I’m Adrian 👋, a web developer who enjoys building sleek, interactive websites that actually work well.",
-        "I specialize in JavaScript, React, and Next.js—and I love making things feel smooth, fast, and just a little bit delightful.",
-        "I’m big on clean UI, good UX, and writing code that doesn’t need a search party to debug.",
-        "Outside of dev work, you'll find me tweaking layouts at 2AM, sipping overpriced coffee, or impulse-buying gadgets I absolutely convinced myself I needed 😅",
+        "Hey! I’m Talha Jamil 👋 — a Full-Stack Developer who loves crafting digital experiences that feel smooth, modern, and engaging.",
+
+        "I build sleek web platforms using React, Next.js, and Tailwind CSS, and powerful mobile apps with React Native, bringing ideas to life through clean code and thoughtful design. On the backend, I work with Node.js, Supabase, and APIs to create secure, scalable, and reliable systems.",
+
+        "By blending UI/UX design thinking with performance-focused development, I build products that don’t just look great — they work flawlessly. I enjoy turning complex ideas into simple, intuitive solutions that deliver real value.",
+
+        "If you’re looking for someone who can handle the entire stack while keeping users at the center, I’m always ready to collaborate.",
       ],
     },
   ],
@@ -513,7 +512,7 @@ export const locations = {
 } as const;
 
 const INITIAL_Z_INDEX = 1000;
-const LAUNCHPAD_Z_INDEX = 1500;    // launchpad
+const LAUNCHPAD_Z_INDEX = 1500; // launchpad
 
 const WINDOW_CONFIG = {
   launchpad: {
@@ -529,7 +528,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title: "Finder"
+    title: "Finder",
   },
   contact: {
     isOpen: false,
@@ -537,7 +536,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title: "Contact"
+    title: "Contact",
   },
   resume: {
     isOpen: false,
@@ -545,7 +544,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Resume"
+    title: "Resume",
   },
   safari: {
     isOpen: false,
@@ -553,7 +552,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Safari"
+    title: "Safari",
   },
   facetime: {
     isOpen: false,
@@ -561,7 +560,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title: "Facetime"
+    title: "Facetime",
   },
   photos: {
     isOpen: false,
@@ -569,7 +568,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Photos"
+    title: "Photos",
   },
   music: {
     isOpen: false,
@@ -577,7 +576,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Music"
+    title: "Music",
   },
   spotify: {
     isOpen: false,
@@ -585,7 +584,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Spotify"
+    title: "Spotify",
   },
   snake: {
     isOpen: false,
@@ -593,7 +592,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Snake"
+    title: "Snake",
   },
   weather: {
     isOpen: false,
@@ -601,7 +600,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Weather"
+    title: "Weather",
   },
   notes: {
     isOpen: false,
@@ -609,7 +608,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Notes"
+    title: "Notes",
   },
   settings: {
     isOpen: false,
@@ -617,7 +616,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Settings"
+    title: "Settings",
   },
   calculator: {
     isOpen: false,
@@ -625,7 +624,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Calculator"
+    title: "Calculator",
   },
   calendar: {
     isOpen: false,
@@ -633,7 +632,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Calendar"
+    title: "Calendar",
   },
   terminal: {
     isOpen: false,
@@ -641,7 +640,7 @@ const WINDOW_CONFIG = {
     isMaximized: false,
     zIndex: INITIAL_Z_INDEX,
     data: null,
-    title:"Terminal"
+    title: "Terminal",
   },
   txtfile: {
     isOpen: false,
