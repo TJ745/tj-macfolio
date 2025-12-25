@@ -1,4 +1,5 @@
 import { WindowKey } from "@/store/window";
+import { Github, Linkedin, Instagram, Twitter } from "lucide-react";
 
 const dockApps: {
   id: WindowKey;
@@ -36,12 +37,12 @@ const dockApps: {
     icon: "photos.png",
     canOpen: true,
   },
-  {
-    id: "music",
-    name: "Music",
-    icon: "music.webp",
-    canOpen: true,
-  },
+  // {
+  //   id: "music",
+  //   name: "Music",
+  //   icon: "music.webp",
+  //   canOpen: true,
+  // },
   {
     id: "spotify",
     name: "Spotify",
@@ -90,18 +91,18 @@ const dockApps: {
     icon: "terminal.png",
     canOpen: true,
   },
-  {
-    id: "settings",
-    name: "Settings", // was "Terminal"
-    icon: "settings.webp",
-    canOpen: true,
-  },
-  {
-    id: "trash",
-    name: "Archive", // was "Trash"
-    icon: "trash.png",
-    canOpen: false,
-  },
+  // {
+  //   id: "settings",
+  //   name: "Settings", // was "Terminal"
+  //   icon: "settings.webp",
+  //   canOpen: true,
+  // },
+  // {
+  //   id: "trash",
+  //   name: "Archive", // was "Trash"
+  //   icon: "trash.png",
+  //   canOpen: false,
+  // },
 ];
 
 const blogPosts = [
@@ -156,29 +157,29 @@ const socials = [
   {
     id: 1,
     text: "Github",
-    icon: "/icons/github.svg",
-    bg: "#f4656b",
+    icon: Github,
+    bg: "#000000",
     link: "https://github.com/TJ745",
   },
   {
     id: 2,
     text: "LinkedIn",
-    icon: "/icons/linkedin.svg",
-    bg: "#05b6f6",
+    icon: Linkedin,
+    bg: "#0072B1",
     link: "https://linkedin.com/in/talha-jamil-937b3b32",
   },
   {
     id: 3,
     text: "Instagram",
-    icon: "/icons/atom.svg",
-    bg: "#4bcb63",
+    icon: Instagram,
+    bg: "#405DE6",
     link: "https://instagram.com/t_e_e.j_a_y",
   },
   {
     id: 4,
     text: "Twitter/X",
-    icon: "/icons/twitter.svg",
-    bg: "#ff866b",
+    icon: Twitter,
+    bg: "#000000",
     link: "https://x.com/t_e_e_j_a_y",
   },
   
@@ -215,19 +216,19 @@ const photosLinks = [
 const gallery = [
   {
     id: 1,
-    img: "/images/gal1.png",
+    img: "/images/gallery/1.jpeg",
   },
   {
     id: 2,
-    img: "/images/gal2.png",
+    img: "/images/gallery/2.jpeg",
   },
   {
     id: 3,
-    img: "/images/gal3.png",
+    img: "/images/gallery/3.jpeg",
   },
   {
     id: 4,
-    img: "/images/gal4.png",
+    img: "/images/gallery/4.jpeg",
   },
 ];
 
@@ -243,15 +244,15 @@ const WORK_LOCATION = {
     // ▶ Project 1
     {
       id: 5,
-      name: "Nike Ecommerce Website Application",
+      name: "Technyon",
       icon: "/images/folder.png",
       kind: "folder",
       position: "top-10 left-5", // icon position inside Finder
-      windowPosition: "top-[5vh] left-5", // optional: Finder window position
+      windowPosition: "top-[7vh] left-7", // optional: Finder window position
       children: [
         {
           id: 1,
-          name: "Nike Project.txt",
+          name: "Technyon Project.txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
@@ -265,31 +266,31 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "nike.com",
+          name: "technyon.com",
           icon: "/images/safari.png",
           kind: "file",
           fileType: "url",
-          href: "https://youtu.be/fZdTYswuZjU?si=Awjl-pIst9e09_UU",
+          href: "https://www.technyon.com",
           position: "top-10 right-20",
         },
         {
           id: 4,
-          name: "nike.png",
+          name: "technyon.png",
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
           position: "top-52 right-80",
-          imageUrl: "/images/project-1.png",
+          imageUrl: "/images/work/technyon.png",
         },
-        {
-          id: 5,
-          name: "Design.fig",
-          icon: "/images/plain.png",
-          kind: "file",
-          fileType: "fig",
-          href: "https://google.com",
-          position: "top-60 right-20",
-        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
       ],
     },
 
@@ -299,7 +300,7 @@ const WORK_LOCATION = {
       name: "AI Resume Analyzer",
       icon: "/images/folder.png",
       kind: "folder",
-      position: "top-52 right-80",
+      position: "top-40 left-5",
       windowPosition: "top-[20vh] left-7",
       children: [
         {
@@ -334,15 +335,15 @@ const WORK_LOCATION = {
           position: "top-52 left-80",
           imageUrl: "/images/project-2.png",
         },
-        {
-          id: 5,
-          name: "Design.fig",
-          icon: "/images/plain.png",
-          kind: "file",
-          fileType: "fig",
-          href: "https://google.com",
-          position: "top-60 left-5",
-        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 left-5",
+        // },
       ],
     },
 
@@ -387,15 +388,227 @@ const WORK_LOCATION = {
           position: "top-52 right-80",
           imageUrl: "/images/project-3.png",
         },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
+      ],
+    },
+
+    // ▶ Project 4
+    {
+      id: 8,
+      name: "Rohail Portfolio",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-40 left-80", // icon position inside Finder
+      windowPosition: "top-[46vh] left-9", // optional: Finder window position
+      children: [
         {
-          id: 5,
-          name: "Design.fig",
-          icon: "/images/plain.png",
+          id: 1,
+          name: "Rohail Project.txt",
+          icon: "/images/txt.png",
           kind: "file",
-          fileType: "fig",
-          href: "https://google.com",
-          position: "top-60 right-20",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "The Nike eCommerce website is a sleek and modern platform designed for shopping the latest Nike collections.",
+            "Instead of a simple online store, it delivers an immersive experience with bold visuals, interactive product displays, and smooth navigation.",
+            "Think of it like walking into a flagship Nike store—but right from your phone or laptop.",
+            "It's built with Next.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
+          ],
         },
+        {
+          id: 2,
+          name: "rohail.work",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://www.rohail.work",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "rohail.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/images/work/rohail.png",
+        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
+      ],
+    },
+
+    // ▶ Project 5
+    {
+      id: 9,
+      name: "POS System",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-70 left-5", // icon position inside Finder
+      windowPosition: "top-[59vh] left-9", // optional: Finder window position
+      children: [
+        {
+          id: 1,
+          name: "POS System Project.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "The Nike eCommerce website is a sleek and modern platform designed for shopping the latest Nike collections.",
+            "Instead of a simple online store, it delivers an immersive experience with bold visuals, interactive product displays, and smooth navigation.",
+            "Think of it like walking into a flagship Nike store—but right from your phone or laptop.",
+            "It's built with Next.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
+          ],
+        },
+        {
+          id: 2,
+          name: "pos.com",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://www.google.com",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "pos.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/images/work/pos.png",
+        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
+      ],
+    },
+
+    // ▶ Project 6
+    {
+      id: 10,
+      name: "HRMS",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-70 left-80", // icon position inside Finder
+      windowPosition: "top-[72vh] left-9", // optional: Finder window position
+      children: [
+        {
+          id: 1,
+          name: "HRMS Project.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "The Nike eCommerce website is a sleek and modern platform designed for shopping the latest Nike collections.",
+            "Instead of a simple online store, it delivers an immersive experience with bold visuals, interactive product displays, and smooth navigation.",
+            "Think of it like walking into a flagship Nike store—but right from your phone or laptop.",
+            "It's built with Next.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
+          ],
+        },
+        {
+          id: 2,
+          name: "hrms.com",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://www.google.com",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "hrms.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/images/work/hrms.png",
+        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
+      ],
+    },
+
+    // ▶ Project 7
+    {
+      id: 11,
+      name: "Expense Tracker",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-10 left-42", // icon position inside Finder
+      windowPosition: "top-[7vh] left-40", // optional: Finder window position
+      children: [
+        {
+          id: 1,
+          name: "Expense Tracker Project.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "The Nike eCommerce website is a sleek and modern platform designed for shopping the latest Nike collections.",
+            "Instead of a simple online store, it delivers an immersive experience with bold visuals, interactive product displays, and smooth navigation.",
+            "Think of it like walking into a flagship Nike store—but right from your phone or laptop.",
+            "It's built with Next.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
+          ],
+        },
+        {
+          id: 2,
+          name: "expensetracker.com",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://www.google.com",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "expensetracker.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/images/work/expensetracker.png",
+        },
+        // {
+        //   id: 5,
+        //   name: "Design.fig",
+        //   icon: "/images/plain.png",
+        //   kind: "file",
+        //   fileType: "fig",
+        //   href: "https://google.com",
+        //   position: "top-60 right-20",
+        // },
       ],
     },
   ],
@@ -415,25 +628,25 @@ const ABOUT_LOCATION = {
       kind: "file",
       fileType: "img",
       position: "top-10 left-5",
-      imageUrl: "/images/adrian.jpg",
+      imageUrl: "/images/gallery/1.jpeg",
     },
     {
       id: 2,
-      name: "casual-me.png",
+      name: "casual.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
       position: "top-28 right-72",
-      imageUrl: "/images/adrian-2.jpg",
+      imageUrl: "/images/gallery/2.jpeg",
     },
     {
       id: 3,
-      name: "conference-me.png",
+      name: "me(3).png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
       position: "top-52 left-80",
-      imageUrl: "/images/adrian-3.jpeg",
+      imageUrl: "/images/gallery/3.jpeg",
     },
     {
       id: 4,
@@ -443,7 +656,7 @@ const ABOUT_LOCATION = {
       fileType: "txt",
       position: "top-60 left-5",
       subtitle: "Meet the Developer Behind the Code",
-      image: "/images/adrian.jpg",
+      image: "/images/gallery/1.jpeg",
       description: [
         "Hey! I’m Talha Jamil 👋 — a Full-Stack Developer who loves crafting digital experiences that feel smooth, modern, and engaging.",
 

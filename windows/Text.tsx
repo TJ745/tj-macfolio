@@ -25,15 +25,15 @@ const Text = () => {
         <h2 className="font-bold text-sm text-center w-full">{name}</h2>
       </div>
 
-      <div className="p-5 h-full pb-16 overflow-y-scroll space-y-6">
+      <div className="flex flex-col p-5 h-full pb-16 overflow-y-scroll space-y-6">
         {image ? (
-          <div className="w-full">
+          <div className="w-full flex justify-center mb-4">
             <Image
               src={image}
               alt={name}
-              className="w-full h-auto rounded"
-              height={1000}
-              width={1000}
+              className="rounded"
+              height={640}
+              width={480}
             />
           </div>
         ) : null}

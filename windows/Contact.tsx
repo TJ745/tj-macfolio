@@ -16,7 +16,7 @@ const Contact = () => {
         <Image
           src="/images/adrian.jpg"
           alt="TJ"
-          className="w-20 rounded-full"
+          className="w-36 rounded-full"
           height={100}
           width={100}
         />
@@ -24,33 +24,29 @@ const Contact = () => {
         <p>
           Got an idea? A bug to squash? Or just wanna talk tech? I&apos;m in.
         </p>
-        <p>contact@talhajamil.com</p>
+        <p>talha_mughalz@hotmail.com</p>
 
         <ul className="flex items-center gap-3">
-          {socials.map(({ id, bg, link, icon, text }) => (
-            <li
-              key={id}
-              style={{ backgroundColor: bg }}
-              className="rounded-lg p-3 w-60 hover:-translate-y-0.5 hover:scale-105 origin-center transition-all duration-300"
-            >
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={text}
-                className="space-y-5"
+          {socials.map(({ id, bg, link, icon: Icon, text }) => {
+            return (
+              <li
+                key={id}
+                style={{ backgroundColor: bg }}
+                className="rounded-lg p-3  hover:-translate-y-0.5 hover:scale-105 origin-center transition-all duration-300"
               >
-                <Image
-                  src={icon}
-                  alt={text}
-                  className="size-5"
-                  height={100}
-                  width={100}
-                />
-                <p className="font-semibold text-sm text-white">{text}</p>
-              </a>
-            </li>
-          ))}
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={text}
+                  className="space-y-5"
+                >
+                  <Icon className="size-5" />
+                  {/* <p className="font-semibold text-sm text-white">{text}</p> */}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>

@@ -29,7 +29,10 @@ const Resume = () => {
         </Link>
       </div>
 
-      <Document file="files/resume.pdf" className={`h-full overflow-y-scroll`}>
+      <Document
+        file="files/resume.pdf"
+        className={`h-full overflow-y-scroll pb-16`}
+      >
         <Page pageNumber={1} renderTextLayer renderAnnotationLayer />
       </Document>
     </>
